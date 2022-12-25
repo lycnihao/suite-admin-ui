@@ -11,8 +11,9 @@ app.use(Antd)
 app.use(router)
 
 // 注册图标组件
-Object.keys(antIcons).forEach((key) => {
-app.component(key, antIcons[key]);
+const icons: any = antIcons
+Object.keys(icons).forEach((key) => {
+app.component(key, icons[key]);
 });
 
 app.mount('#app')
