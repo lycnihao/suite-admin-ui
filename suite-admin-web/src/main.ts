@@ -4,6 +4,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import '/@/theme/index.less';
 import { router } from '/@/router/index';
+import { setupStore } from '/@/store';
+
 
 const app = createApp(App)
 
@@ -15,5 +17,8 @@ const icons: any = antIcons
 Object.keys(icons).forEach((key) => {
 app.component(key, icons[key]);
 });
+
+// 挂载状态管理
+setupStore(app);
 
 app.mount('#app')
