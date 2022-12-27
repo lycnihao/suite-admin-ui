@@ -67,6 +67,9 @@
   
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
+import { message } from 'ant-design-vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useUserStore } from '/@/store/modules/user'
 
 const formRef = ref();
 const loading = ref(false);
@@ -83,9 +86,34 @@ const rules = {
   password: { required: true, message: '请输入密码', trigger: 'blur' },
 };
 
+const router = useRouter();
+const route = useRoute();
+const userStore = useUserStore();
 const handleSubmit = () => {
-  formRef.value.validateFields().then(() => {
-    console.log('验证成功')
+  formRef.value.validateFields().then(async () => {
+    message.loading('登录中...');
+    loading.value = true;
+    const { username, password } = formInline;
+    const params = {
+      username,
+      password,
+    };
+
+    try {
+        const { status, message: msg } = await userStore.login(params);
+        message.destroy();
+        if (status == 200) {
+          const toPath = decodeURIComponent((route.query?.redirect || '/') as string);
+          message.success('登录成功，即将进入系统');
+          if (route.name === 'Login') {
+            router.replace('/');
+          } else router.replace(toPath);
+        } else {
+          message.info(msg || '登录失败');
+        }
+      } finally {
+        loading.value = false;
+      }
   });
 }
 </script>
