@@ -4,7 +4,7 @@
     <div class="view-account-container">
       <div class="view-account-top">
         <div class="view-account-top-logo">
-          <img src="../../../assets/vue.svg" alt="" />
+          <img src="../../../assets/logo.svg" alt="" />
         </div>
         <div class="view-account-top-desc">Welcome to load in suite admin</div>
       </div>
@@ -109,6 +109,9 @@ const handleSubmit = () => {
     padding: 32px 0;
     text-align: center;
 
+    &-logo {
+      margin-bottom: 5px;
+    }
     &-desc {
       font-size: 14px;
       color: #808695;
