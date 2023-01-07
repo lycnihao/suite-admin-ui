@@ -54,13 +54,14 @@ export const useUserStore = defineStore({
     async login (userInfo: any) {
       try {
         const response = await login(userInfo);
-        const { data, status } = response;
-        if (status === 200) {
+        console.log(response)
+        const { data, code } = response;
+        if (code === 200) {
           const ex = 60 * 60 * 1000;
           storage.set(ACCESS_TOKEN, data['access_token'], ex);
-          //storage.set(CURRENT_USER, data, ex);
+          storage.set(CURRENT_USER, data, ex);
           this.setToken(data['access_token']);
-          //this.setUserInfo(data);
+          this.setUserInfo(data);
         }
         return Promise.resolve(response);
       } catch (e) {

@@ -1,7 +1,7 @@
 import { http } from '/@/utils/http/request';
 
 export interface BasicResponseModel<T = any> {
-  status: number;
+  code: number;
   message: string;
   data: T;
 }

@@ -100,9 +100,9 @@ const handleSubmit = () => {
     };
 
     try {
-        const { status, message: msg } = await userStore.login(params);
+        const { code, message: msg } = await userStore.login(params);
         message.destroy();
-        if (status == 200) {
+        if (code == 200) {
           const toPath = decodeURIComponent((route.query?.redirect || '/') as string);
           message.success('登录成功，即将进入系统');
           if (route.name === 'Login') {
