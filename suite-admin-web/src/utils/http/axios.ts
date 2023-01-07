@@ -5,6 +5,13 @@ import { checkStatus } from './checkStatus';
 
 const authenticationScheme: string = 'Bearer';
 
+export interface Result<T = any> {
+  code: number;
+  type?: 'success' | 'error' | 'warning';
+  message: string;
+  data?: T;
+}
+
 export class VAxios {
 
   private axiosInstance: AxiosInstance;
@@ -18,8 +25,6 @@ export class VAxios {
    */
   private setupInterceptors () {
 
-
-
     /**
      * @description: 添加请求拦截器
      */
@@ -28,6 +33,7 @@ export class VAxios {
       // 在发送请求之前添加token
       const userStore = useUserStoreWidthOut();
       const token = userStore.getToken;
+      console.log('access token:' + token);
       if (token && config.headers) {
         // jwt token
         config.headers.Authorization = authenticationScheme ? `${authenticationScheme} ${token}` : token
@@ -87,14 +93,30 @@ export class VAxios {
   /**
  * @description:   请求方法
  */
-  request<T = any> (config: AxiosRequestConfig): Promise<T> {
+  request<T = Result> (config: AxiosRequestConfig): Promise<T> {
     return new Promise((resolve, reject) => {
       this.axiosInstance
-        .request<any, AxiosResponse<T>>(config)
-        .then((res: AxiosResponse<T>) => {
+        .request<any, AxiosResponse<Result>>(config)
+        .then((res: AxiosResponse<Result>) => {
           // 请求是否被取消
           const isCancel = axios.isCancel(res);
-          resolve(res as unknown as Promise<T>);
+          //  这里 code，result，message为 后台统一的字段，需要修改为项目自己的接口返回格式
+          const { code, message } = res.data;
+          // 接口请求成功，直接返回结果
+          if (code === 200) {
+            resolve(res.data as unknown as Promise<T>);
+            return
+          }
+          // 接口请求错误，统一提示错误信息 这里逻辑可以根据项目进行修改
+          let errorMsg = message;
+          console.log('失败:' + errorMsg)
+          switch (code) {
+            // 请求失败
+            case 500:
+              $message.error(errorMsg);
+              break;
+          }
+          throw new Error(errorMsg);
         })
         .catch((e: Error) => {
           reject(e);
