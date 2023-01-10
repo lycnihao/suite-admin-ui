@@ -61,7 +61,7 @@ export const useUserStore = defineStore({
           storage.set(ACCESS_TOKEN, data['access_token'], ex);
           storage.set(CURRENT_USER, data, ex);
           this.setToken(data['access_token']);
-          this.setUserInfo(data);
+          //this.setUserInfo(data);
         }
         return Promise.resolve(response);
       } catch (e) {
