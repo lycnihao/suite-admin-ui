@@ -16,15 +16,100 @@ export default [
           };
       },
     },
-    // {
-    //   url: '/api/admin_info',
-    //   timeout: 1000,
-    //   method: 'get',
-    //   response: () => {
-    //     // const token = getRequestToken(request);
-    //     // if (!token) return resultError('Invalid token');
-    //     return resultSuccess(adminInfo);
-    //   },
-    // },
+    {
+      url: '/user/info',
+      timeout: 1000,
+      method: 'get',
+      response: () => {
+        return {
+          "code": 200,
+          "message": "OK",
+          "devMessage": null,
+          "data": {
+              "userId": 1,
+              "username": "admin",
+              "nickname": "admin",
+              "email": "test@example.com",
+              "avatar": "",
+              "roles": null,
+              "roleIds": null,
+              "permissions": [
+                  {
+                      "label": "删除权限",
+                      "value": "system_permission_del"
+                  },
+                  {
+                      "label": "菜单权限",
+                      "value": "system_menu"
+                  },
+                  {
+                      "label": "添加角色",
+                      "value": "system_role_add"
+                  },
+                  {
+                      "label": "角色列表",
+                      "value": "system_role_list"
+                  },
+                  {
+                      "label": "删除用户",
+                      "value": "system_user_del"
+                  },
+                  {
+                      "label": "修改权限",
+                      "value": "system_permission_upd"
+                  },
+                  {
+                      "label": "Dashboard",
+                      "value": "dashboard"
+                  },
+                  {
+                      "label": "用户管理",
+                      "value": "system_user"
+                  },
+                  {
+                      "label": "用户列表",
+                      "value": "system_user_list"
+                  },
+                  {
+                      "label": "修改角色",
+                      "value": "system_role_upd"
+                  },
+                  {
+                      "label": "修改用户",
+                      "value": "system_user_upd"
+                  },
+                  {
+                      "label": "权限管理",
+                      "value": "auth"
+                  },
+                  {
+                      "label": "删除角色",
+                      "value": "system_role_del"
+                  },
+                  {
+                      "label": "添加用户",
+                      "value": "system_user_add"
+                  },
+                  {
+                      "label": "添加权限",
+                      "value": "system_permission_add"
+                  },
+                  {
+                      "label": "角色管理",
+                      "value": "system_role"
+                  },
+                  {
+                      "label": "工作台",
+                      "value": "dashboard_workplace"
+                  },
+                  {
+                      "label": "系统管理",
+                      "value": "system"
+                  }
+              ]
+          }
+      };
+      },
+    },
   ];
   

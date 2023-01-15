@@ -109,7 +109,7 @@ export class VAxios {
           }
           // 接口请求错误，统一提示错误信息 这里逻辑可以根据项目进行修改
           let errorMsg = message;
-          console.log('失败:' + errorMsg)
+          console.log('errorMsg:' + errorMsg)
           switch (code) {
             // 请求失败
             case 500:

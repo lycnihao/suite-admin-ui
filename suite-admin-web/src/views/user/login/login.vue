@@ -106,7 +106,7 @@ const handleSubmit = () => {
           const toPath = decodeURIComponent((route.query?.redirect || '/') as string);
           message.success('登录成功，即将进入系统');
           if (route.name === 'Login') {
-            router.replace('/');
+            router.replace('/home');
           } else router.replace(toPath);
         } else {
           message.info(msg || '登录失败');
