@@ -55,7 +55,7 @@ export const generatorDynamicRouter = (): Promise<RouteRecordRaw[]> => {
     return new Promise((resolve, reject) => {
       adminMenus()
         .then((result) => {
-          const routeList = routerGenerator(result);
+          const routeList = routerGenerator(result.data);
           asyncImportRoute(routeList);
   
           resolve(routeList);

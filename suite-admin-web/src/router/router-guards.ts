@@ -21,7 +21,7 @@ export const ErrorPageRoute = {
     {
       path: '/:path(.*)*',
       name: 'ErrorPageSon',
-      component: '/@/views/exception/404.vue',
+      component: () => import('/@/views/exception/404.vue'),
       meta: {
         title: 'ErrorPage',
         hideBreadcrumb: true,
