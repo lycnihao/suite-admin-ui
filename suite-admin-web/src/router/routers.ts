@@ -1,3 +1,3 @@
-import { homeRouters } from './modules/home';
+import { dashboardRouters } from './modules/dashboard';
 
-export const routerArray = [...homeRouters];
+export const routerArray = [...dashboardRouters];

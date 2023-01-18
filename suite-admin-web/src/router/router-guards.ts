@@ -5,8 +5,9 @@ import { ACCESS_TOKEN } from '/@/store/mutation-types';
 import { useUserStoreWidthOut } from '/@/store/modules/user';
 import { useAsyncRouteStoreWidthOut } from '/@/store/modules/asyncRoute';
 import SuiteLayout from "/@/layout/suite-layout.vue";
+import { PageEnum } from '/@/enums/pageEnum';
 
-const whitePathList = ['/login'];
+const whitePathList = [PageEnum.BASE_LOGIN];
 
 // 404 on a page
 export const ErrorPageRoute = {
@@ -21,7 +22,7 @@ export const ErrorPageRoute = {
     {
       path: '/:path(.*)*',
       name: 'ErrorPageSon',
-      component: () => import('/@/views/exception/404.vue'),
+      component: () => import('/@/views/system/exception/404.vue'),
       meta: {
         title: 'ErrorPage',
         hideBreadcrumb: true,
@@ -36,8 +37,8 @@ export function createRouterGuards (router: Router) {
 
   router.beforeEach(async (to, from, next) => {
     NProgress.start();
-    if (from.path === '/login' && to.name === 'errorPage') {
-      next('/');
+    if (from.path === PageEnum.BASE_LOGIN && to.name === PageEnum.ERROR_PAGE_NAME) {
+      next(PageEnum.BASE_HOME);
       return;
     }
 
@@ -56,7 +57,7 @@ export function createRouterGuards (router: Router) {
       }
       // 重定向登录页
       const redirectData: { path: string; replace: boolean; query?: any } = {
-        path: '/login',
+        path: PageEnum.BASE_LOGIN,
         replace: true,
       };
       if (to.path) {
@@ -78,7 +79,7 @@ export function createRouterGuards (router: Router) {
     if (code != 200) {
       // 重定向登录页
       const redirectData: { path: string; replace: boolean; query?: any } = {
-        path: '/login',
+        path: PageEnum.BASE_LOGIN,
         replace: true,
       };
       if (to.path) {

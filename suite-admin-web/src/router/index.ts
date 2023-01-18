@@ -2,19 +2,20 @@ import { App } from 'vue';
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import { routerArray } from './routers';
 import { createRouterGuards } from './router-guards';
+import { PageEnum } from '/@/enums/pageEnum';
 
 
 export const RootRoute: RouteRecordRaw = {
     path: '/',
     name: 'Root',
-    redirect: "/dashboard",
+    redirect: PageEnum.BASE_HOME,
     meta: {
       title: 'Root',
     },
   };
   
   export const LoginRoute: RouteRecordRaw = {
-    path: '/login',
+    path: PageEnum.BASE_LOGIN,
     name: 'Login',
     component: () => import('/@/views/user/login/login.vue'),
     meta: {

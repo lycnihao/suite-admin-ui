@@ -46,46 +46,8 @@
   <script lang="ts">
   import { defineComponent, ref } from 'vue';
   import SubMenu from './sider-menu.vue'
-
-  const menusList = [
-  {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: 'LAYOUT',
-    redirect: '/dashboard/console',
-    meta: {
-      icon: 'dashboard-outlined',
-      title: 'Dashboard',
-    },
-    children: [
-      {
-        path: 'console',
-        name: 'dashboard_console',
-        component: '/dashboard/console/console',
-        meta: {
-          title: '主控台',
-        },
-      },
-      {
-        path: 'monitor',
-        name: 'dashboard_monitor',
-        component: '/dashboard/monitor/monitor',
-        meta: {
-          title: '监控页',
-        },
-      },
-      {
-        path: 'workplace',
-        name: 'dashboard_workplace',
-        component: '/dashboard/workplace/workplace',
-        meta: {
-          hidden: true,
-          title: '工作台',
-        },
-      },
-    ],
-  },
-];
+  import { useAsyncRouteStore } from '/@/store/modules/asyncRoute';
+  import { useRoute } from 'vue-router';
 
   export default defineComponent({
     name: 'SuiteLayout',
@@ -93,6 +55,14 @@
       'sub-menu': SubMenu,
     },
     setup() {
+      const route = useRoute();
+      const asyncRouteStore = useAsyncRouteStore();
+
+      // 获取当前打开的子菜单
+      const matched = route.matched;
+      const getOpenKeys = matched && matched.length ? matched.map((item) => item.name) : [];
+      const menusList = asyncRouteStore.getMenus;
+      
       const theme = ref('dark')
       const collapsed = ref<boolean>(false);
       const toggleCollapsed = () => {
@@ -103,8 +73,8 @@
         menusList,
         collapsed,
         toggleCollapsed,
-        selectedKeys: ref<string[]>(['1']),
-        openKeys: ref(['2']), 
+        selectedKeys: ref<any[]>([ route.name ]),
+        openKeys: getOpenKeys, 
       };
     },
   });

@@ -24,11 +24,11 @@ export default [
                     },
                     "children": [
                         {
-                            "name": "dashboard_workplace",
+                            "name": "dashboard_index",
                             "title": "工作台",
-                            "path": "workplace",
+                            "path": "index",
                             "redirect": null,
-                            "component": "/dashboard/workplace/workplace",
+                            "component": "/system/dashboard/index",
                             "meta": {
                                 "title": "工作台",
                                 "icon": null,
