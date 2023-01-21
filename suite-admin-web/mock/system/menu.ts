@@ -25,12 +25,12 @@ export default [
                     "children": [
                         {
                             "name": "dashboard_index",
-                            "title": "工作台",
+                            "title": "仪表盘",
                             "path": "index",
                             "redirect": null,
                             "component": "/system/dashboard/index",
                             "meta": {
-                                "title": "工作台",
+                                "title": "仪表盘",
                                 "icon": null,
                                 "sort": 0,
                                 "keepAlive": true,
