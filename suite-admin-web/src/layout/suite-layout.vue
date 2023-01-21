@@ -13,15 +13,15 @@
       >
         <template v-for="item in menusList" :key="item.name">
           <template v-if="!item.children">
-            <a-menu-item :key="item.name">
+            <a-menu-item :key="item.name" @click="routerRedirect(item.path)">
               <template #icon>
-                <component v-if="item.meta.icon" :is="item.meta.icon"/>
+                <component v-if="item.meta && item.meta.icon" :is="item.meta.icon"/>
               </template>
-              {{ item.meta.title }}
+              {{ item.meta?.title }}
             </a-menu-item>
           </template>
           <template v-else>
-            <sub-menu :key="item.name" :menu-info="item" />
+            <sub-menu :key="item.name" :menu-info="item" :parentPath="item.path"/>
           </template>
         </template>
       </a-menu>
@@ -56,7 +56,7 @@
   import { defineComponent, ref, computed } from 'vue';
   import SubMenu from './sider-menu.vue'
   import { useAsyncRouteStore } from '/@/store/modules/asyncRoute';
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
 
   export default defineComponent({
     name: 'SuiteLayout',
@@ -64,6 +64,7 @@
       'sub-menu': SubMenu,
     },
     setup() {
+      const router = useRouter();
       const route = useRoute();
       const asyncRouteStore = useAsyncRouteStore();
 
@@ -81,9 +82,14 @@
       const toggleCollapsed = () => {
         collapsed.value = !collapsed.value;
       };
+      const routerRedirect = (path: string) => {
+        console.log('redirect:' + path)
+        router.replace(path);
+      }
       return {
         theme,
         menusList,
+        routerRedirect,
         collapsed,
         toggleCollapsed,
         selectedKeys: ref<any[]>([ route.name ]),
