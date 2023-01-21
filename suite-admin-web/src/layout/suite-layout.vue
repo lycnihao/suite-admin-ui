@@ -21,7 +21,7 @@
             </a-menu-item>
           </template>
           <template v-else>
-            <sub-menu :key="item.name" :menu-info="item" :parentPath="item.path"/>
+            <SubMenu :key="item.name" :menu-info="item" :parentPath="item.path"/>
           </template>
         </template>
       </a-menu>
@@ -38,39 +38,28 @@
         <a-layout-content
           :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }"
         >
-        <RouterView>
-          <template #default="{ Component, route }">
-              <transition name="fade" mode="out-in" appear>
-                <keep-alive v-if="keepAliveComponents" :include="keepAliveComponents">
-                  <component :is="Component" :key="route.fullPath" />
-                </keep-alive>
-                <component v-else :is="Component" :key="route.fullPath" />
-              </transition>
-            </template>
-        </RouterView>
+          <MainView/>
         </a-layout-content>
       </a-layout>
     </a-layout>
   </template>
   <script lang="ts">
-  import { defineComponent, ref, computed } from 'vue';
-  import SubMenu from './sider-menu.vue'
+  import { defineComponent, ref } from 'vue';
+  import SubMenu from './sider-menu-sub.vue'
   import { useAsyncRouteStore } from '/@/store/modules/asyncRoute';
   import { useRoute, useRouter } from 'vue-router';
+  import MainView from './main-view.vue';
 
   export default defineComponent({
     name: 'SuiteLayout',
     components: {
-      'sub-menu': SubMenu,
+      SubMenu,
+      MainView
     },
     setup() {
       const router = useRouter();
       const route = useRoute();
       const asyncRouteStore = useAsyncRouteStore();
-
-      // 需要缓存的路由组件
-      const keepAliveComponents = computed(() => asyncRouteStore.keepAliveComponents);
-      console.log(keepAliveComponents)
 
       // 获取当前打开的子菜单
       const matched = route.matched;
@@ -94,7 +83,6 @@
         toggleCollapsed,
         selectedKeys: ref<any[]>([ route.name ]),
         openKeys: getOpenKeys,
-        keepAliveComponents,
       };
     },
   });
