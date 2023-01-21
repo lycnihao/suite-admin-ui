@@ -38,13 +38,22 @@
         <a-layout-content
           :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }"
         >
-        <router-view />
+        <RouterView>
+          <template #default="{ Component, route }">
+              <transition name="fade" mode="out-in" appear>
+                <keep-alive v-if="keepAliveComponents" :include="keepAliveComponents">
+                  <component :is="Component" :key="route.fullPath" />
+                </keep-alive>
+                <component v-else :is="Component" :key="route.fullPath" />
+              </transition>
+            </template>
+        </RouterView>
         </a-layout-content>
       </a-layout>
     </a-layout>
   </template>
   <script lang="ts">
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, computed } from 'vue';
   import SubMenu from './sider-menu.vue'
   import { useAsyncRouteStore } from '/@/store/modules/asyncRoute';
   import { useRoute } from 'vue-router';
@@ -57,6 +66,10 @@
     setup() {
       const route = useRoute();
       const asyncRouteStore = useAsyncRouteStore();
+
+      // 需要缓存的路由组件
+      const keepAliveComponents = computed(() => asyncRouteStore.keepAliveComponents);
+      console.log(keepAliveComponents)
 
       // 获取当前打开的子菜单
       const matched = route.matched;
@@ -74,7 +87,8 @@
         collapsed,
         toggleCollapsed,
         selectedKeys: ref<any[]>([ route.name ]),
-        openKeys: getOpenKeys, 
+        openKeys: getOpenKeys,
+        keepAliveComponents,
       };
     },
   });
