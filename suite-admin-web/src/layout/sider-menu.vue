@@ -1,48 +1,76 @@
 <template>
-    <a-sub-menu :key="menuInfo.name">
-      <template #icon><component v-if="menuInfo.meta.icon" :is="menuInfo.meta.icon"/></template>
-      <template #title>{{ menuInfo.meta.title }}</template>
-      <template v-for="item in menuInfo.children" :key="item.name">
-        <template v-if="!item.children">
-          <a-menu-item :key="item.name" @click="routerRedirect(item.path)">
-            <template #icon>
-                <component v-if="item.meta.icon" :is="item.meta.icon"/>
-                {{ item.meta.icon }}
-            </template>
-            {{ item.meta.title }}
-          </a-menu-item>
+    <a-menu
+        mode="inline"
+        v-model:openKeys="openKeys"
+        v-model:selectedKeys="selectedKeys"
+        v-model:collapsed="inlineCollapsed"
+        :theme="theme"
+      >
+        <template v-for="item in menusList" :key="item.name">
+          <template v-if="!item.children">
+            <a-menu-item :key="item.name" @click="routerRedirect(item.path)">
+              <template #icon>
+                <component v-if="item.meta && item.meta.icon" :is="item.meta.icon"/>
+              </template>
+              {{ item.meta?.title }}
+            </a-menu-item>
+          </template>
+          <template v-else>
+            <SubMenu :key="item.name" :menu-info="item" :parentPath="item.path"/>
+          </template>
         </template>
-        <template v-else>
-          <sub-menu :menu-info="item" :key="item.name"  :parentPath="item.path" />
-        </template>
-      </template>
-    </a-sub-menu>
+      </a-menu>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
+import { defineComponent, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useAsyncRouteStore } from '/@/store/modules/asyncRoute';
+import SubMenu from '/@/layout/sider-menu-sub.vue';
 
 export default defineComponent({
-    name: 'SubMenu',
+    name: 'SiderMenu',
+    components: {
+      SubMenu
+    },
     props: {
-        parentPath: {
+        theme: {
           type: String,
-          default: '/',
+          default: 'dark',
         },
-        menuInfo: {
-            type: Object,
-            default: () => ({}),
-        },
+        collapsed: {
+          type: Boolean,
+          default: false,
+        }
     },
     setup() {
+      // 获取当前打开的子菜单
+      const route = useRoute();
+      const matched = route.matched;
+      const getOpenKeys = matched && matched.length ? matched.map((item) => item.name) : [];
+      const asyncRouteStore = useAsyncRouteStore();
+      const menusList = asyncRouteStore.getMenus;
+
       const router = useRouter();
       const routerRedirect = (path: string) => {
         console.log('redirect:' + path)
         router.replace(path);
       }
       return {
-        routerRedirect
+        routerRedirect,
+        menusList,
+        openKeys: getOpenKeys,
+        selectedKeys: ref<any[]>([ route.name ]),
+        inlineCollapsed: ref<boolean>(false)
       }
-    }
+    },
+    watch: {
+      collapsed (newVal, oldVal) {
+        this.inlineCollapsed = newVal;
+      },
+      inlineCollapsed (newVal, oldVal) {
+        // collapsed更改传给父组件
+        this.$emit("update:collapsed", newVal);
+      }
+    },
 })
 </script>
