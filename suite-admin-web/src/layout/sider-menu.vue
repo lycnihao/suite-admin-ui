@@ -64,10 +64,10 @@ export default defineComponent({
       }
     },
     watch: {
-      collapsed (newVal, oldVal) {
+      collapsed (newVal) {
         this.inlineCollapsed = newVal;
       },
-      inlineCollapsed (newVal, oldVal) {
+      inlineCollapsed (newVal) {
         // collapsed更改传给父组件
         this.$emit("update:collapsed", newVal);
       }
