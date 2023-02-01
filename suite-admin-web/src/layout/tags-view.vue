@@ -1,6 +1,6 @@
 <template>
   <!-- 标签页，共两部分：1、标签 ；2、标签操作区 -->
-  <a-row style="border-bottom: 1px solid #eeeeee; position: relative" v-show="pageTagFlag">
+  <a-row style="border-bottom: 1px solid #eeeeee; position: relative; top: -4px;" v-show="pageTagFlag">
     <a-dropdown :trigger="['contextmenu']">
       <div class="suite-page-tag">
         <a-tabs :tab-position="mode" v-model:activeKey="state.selectedKey" size="small" @tabClick="goPage">
