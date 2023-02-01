@@ -6,9 +6,10 @@
       <Menu :theme="theme" :collapsed="collapsed" />
     </a-layout-sider>
     <a-layout>
-      <a-layout-header style="background: #fff; padding: 0">
+      <a-layout-header style="background: #fff; padding: 0; height: 98px;">
         <menu-unfold-outlined v-if="collapsed" class="trigger" @click="toggleCollapsed" />
         <menu-fold-outlined v-else class="trigger" @click="toggleCollapsed" />
+        <TagsView/>
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
         <MainView />
@@ -21,11 +22,13 @@ import { defineComponent, ref } from 'vue';
 import Menu from './sider-menu.vue'
 import { useRouter } from 'vue-router';
 import MainView from './main-view.vue';
+import TagsView from './tags-view.vue';
 
 export default defineComponent({
   name: 'SuiteLayout',
   components: {
     Menu,
+    TagsView,
     MainView
   },
   setup () {
