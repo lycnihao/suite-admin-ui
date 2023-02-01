@@ -2,7 +2,12 @@
   <a-layout>
     <a-layout-sider class="suite-layout-sider" v-model:collapsed="collapsed"
       :trigger="null" collapsible breakpoint="lg">
-      <div class="suite-layout-sider-logo"><img src="../assets/logo.svg" alt="" /></div>
+      <div class="suite-layout-sider-logo">
+        <transition mode="out-in">
+          <img src="../assets/logo.svg" alt="" v-if="!collapsed"/>
+          <img src="../assets/logo-thumbnail.svg" alt="" style="width:80px" v-else/>
+        </transition>
+      </div>
       <Menu :theme="theme" :collapsed="collapsed" />
     </a-layout-sider>
     <a-layout>
