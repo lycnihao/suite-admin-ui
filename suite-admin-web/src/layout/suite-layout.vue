@@ -35,8 +35,10 @@
               <MenuBreadcrumb />
             </span>
           </a-col>
-          <!---个人中心-->
-          <a-col class="suite-layout-header-right"> user </a-col>
+          <!---用戶操作区域-->
+          <a-col class="suite-layout-header-right">
+            <HeaderUserSpace />
+          </a-col>
         </a-row>
         <TagsView />
       </a-layout-header>
@@ -53,6 +55,7 @@ import { useRouter } from "vue-router";
 import MainView from "./main-view.vue";
 import TagsView from "./components/page-tag/index.vue";
 import MenuBreadcrumb from "./components/breadcrumb-menu/index.vue";
+import HeaderUserSpace from "./components/header-user-space/index.vue";
 import { PageEnum } from "/@/enums/pageEnum";
 
 export default defineComponent({
@@ -60,6 +63,7 @@ export default defineComponent({
   components: {
     SiderMenu,
     MenuBreadcrumb,
+    HeaderUserSpace,
     TagsView,
     MainView,
   },
@@ -124,12 +128,15 @@ export default defineComponent({
     height: @header-user-height;
 
     .collapsed-button {
-      margin-left: 10px;
       line-height: @header-user-height;
+
+      .suite-layout-header-trigger {
+        padding: 0 12px;
+        font-size: 14px;
+      }
     }
 
     .home-button {
-      margin-left: 15px;
       cursor: pointer;
       padding: 0 5px;
       line-height: @header-user-height;
