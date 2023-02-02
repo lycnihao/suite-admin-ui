@@ -1,10 +1,10 @@
-import type { UserConfig, ConfigEnv } from 'vite';
-import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path';
-import { viteMockServe } from 'vite-plugin-mock';
+import type { UserConfig, ConfigEnv } from "vite";
+import vue from "@vitejs/plugin-vue";
+import { resolve } from "path";
+import { viteMockServe } from "vite-plugin-mock";
 
 const pathResolve = (dir) => {
-  return resolve(__dirname, '.', dir);
+  return resolve(__dirname, ".", dir);
 };
 
 // const configMockPlugin = (command) => {
@@ -15,7 +15,7 @@ const pathResolve = (dir) => {
 //     prodEnabled: command !== 'serve',
 //     injectCode: `
 //        import { setupProdMockServer } from './mock/_createProductionServer';
- 
+
 //        setupProdMockServer();
 //        `,
 //   });
@@ -35,40 +35,44 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         // 绝对路径重命名：/@/xxxx => src/xxxx
         {
           find: /\/@\//,
-          replacement: pathResolve('src') + '/',
+          replacement: pathResolve("src") + "/",
         },
         {
           find: /^~/,
-          replacement: '',
+          replacement: "",
         },
       ],
     },
     // 服务端渲染
     server: {
-      host: '0.0.0.0',
+      host: "0.0.0.0",
       port: 8001,
     },
     css: {
       preprocessorOptions: {
         less: {
           modifyVars: {
-            hack: `true; @import (reference) "${resolve('src/theme/index.less')}";`,
+            hack: `true; @import (reference) "${resolve(
+              "src/theme/index.less"
+            )}";`,
           },
           javascriptEnabled: true,
         },
       },
     },
-    plugins: [vue(),
+    plugins: [
+      vue(),
       viteMockServe({
         ignore: /^\_/,
-        mockPath: 'mock',
-        localEnabled: command === 'serve',
-        prodEnabled: command !== 'serve',
+        mockPath: "mock",
+        localEnabled: command === "serve",
+        prodEnabled: command !== "serve",
         injectCode: `
           import { setupProdMockServer } from './mock/_createProductionServer';
     
           setupProdMockServer();
           `,
-    })],
-  }
-}
+      }),
+    ],
+  };
+};

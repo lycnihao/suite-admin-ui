@@ -1,15 +1,26 @@
 <template>
   <!-- 标签页，共两部分：1、标签 ；2、标签操作区 -->
-  <a-row style="border-bottom: 1px solid #eeeeee; position: relative; top: -4px;" v-show="pageTagFlag">
+  <a-row
+    style="border-bottom: 1px solid #eeeeee; position: relative; top: -4px"
+    v-show="pageTagFlag"
+  >
     <a-dropdown :trigger="['contextmenu']">
       <div class="suite-page-tag">
-        <a-tabs :tab-position="mode" v-model:activeKey="state.selectedKey" size="small" @tabClick="goPage">
+        <a-tabs
+          :tab-position="mode"
+          v-model:activeKey="state.selectedKey"
+          size="small"
+          @tabClick="goPage"
+        >
           <a-tab-pane v-for="item in tabsList" :key="item.name">
             <template #tab>
               <span>
                 {{ item.meta.title }}
-                <close-outlined @click.stop="closeTabItem(item)" v-if="item.name !== PageEnum.BASE_HOME"
-                  class="suite-page-tag-close" />
+                <close-outlined
+                  @click.stop="closeTabItem(item)"
+                  v-if="item.name !== PageEnum.BASE_HOME"
+                  class="suite-page-tag-close"
+                />
               </span>
             </template>
           </a-tab-pane>
@@ -45,23 +56,23 @@
 </template>
 
 <script setup lang="ts">
-import { message } from 'ant-design-vue';
-import { AppstoreOutlined, CloseOutlined } from '@ant-design/icons-vue';
-import { computed, ref, watch, reactive, unref, provide } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { PageEnum } from '/@/enums/pageEnum';
-import { useTabsViewStore, RouteItem } from '/@/store/modules/tabsView';
-import { useAsyncRouteStore } from '/@/store/modules/asyncRoute';
-import { useGo } from '/@/hooks/web/usePage';
-import { storage } from '/@/utils/storage';
-import { TABS_ROUTES } from '/@/store/mutation-types'
+import { message } from "ant-design-vue";
+import { AppstoreOutlined, CloseOutlined } from "@ant-design/icons-vue";
+import { computed, ref, watch, reactive, unref, provide } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { PageEnum } from "/@/enums/pageEnum";
+import { useTabsViewStore, RouteItem } from "/@/store/modules/tabsView";
+import { useAsyncRouteStore } from "/@/store/modules/asyncRoute";
+import { useGo } from "/@/hooks/web/usePage";
+import { storage } from "/@/utils/storage";
+import { TABS_ROUTES } from "/@/store/mutation-types";
 
 //标签页 是否显示
 const pageTagFlag = true;
 
 const router = useRouter();
 const route = useRoute();
-const mode = ref('top');
+const mode = ref("top");
 const tabsViewStore = useTabsViewStore();
 const asyncRouteStore = useAsyncRouteStore();
 const go = useGo();
@@ -70,7 +81,6 @@ const state = reactive({
   activeKey: route.fullPath,
   selectedKey: route.name,
 });
-
 
 // 获取简易的路由对象
 const getSimpleRoute = (route): RouteItem => {
@@ -101,12 +111,12 @@ tabsViewStore.initTabs(cacheRoutes);
 // 移除缓存组件名称
 const delKeepAliveCompName = () => {
   if (route.meta.keepAlive) {
-    const name = router.currentRoute.value.matched.find((item) => item.name == route.name)
-      ?.components?.default.name;
+    const name = router.currentRoute.value.matched.find(
+      (item) => item.name == route.name
+    )?.components?.default.name;
     if (name) {
-      asyncRouteStore.keepAliveComponents = asyncRouteStore.keepAliveComponents.filter(
-        (item) => item != name
-      );
+      asyncRouteStore.keepAliveComponents =
+        asyncRouteStore.keepAliveComponents.filter((item) => item != name);
     }
   }
 };
@@ -123,7 +133,7 @@ watch(
   (to) => {
     if (whiteList.includes(route.name as string)) return;
     state.activeKey = to;
-    state.selectedKey = route.name
+    state.selectedKey = route.name;
     tabsViewStore.addTabs(getSimpleRoute(route));
   },
   { immediate: true }
@@ -132,10 +142,10 @@ watch(
 // 关闭当前页面
 const removeTab = (_route) => {
   if (!_route) {
-    _route = route
+    _route = route;
   }
   if (tabsList.value.length === 1) {
-    return message.warning('这已经是最后一页，不能再关闭了！');
+    return message.warning("这已经是最后一页，不能再关闭了！");
   }
   delKeepAliveCompName();
   tabsViewStore.closeCurrentTab(route);
@@ -143,7 +153,7 @@ const removeTab = (_route) => {
   if (state.activeKey === route.fullPath) {
     const currentRoute = tabsList.value[Math.max(0, tabsList.value.length - 1)];
     state.activeKey = currentRoute.fullPath;
-    state.selectedKey = currentRoute.name
+    state.selectedKey = currentRoute.name;
     router.push(currentRoute);
   }
 };
@@ -151,16 +161,16 @@ const removeTab = (_route) => {
 const reloadPage = () => {
   delKeepAliveCompName();
   router.push({
-    path: '?redirect=' + unref(route).fullPath,
+    path: "?redirect=" + unref(route).fullPath,
   });
 };
 // 注入刷新页面方法
-provide('reloadPage', reloadPage);
+provide("reloadPage", reloadPage);
 // 关闭左侧
 const closeLeft = () => {
   tabsViewStore.closeLeftTabs(route);
   state.activeKey = route.fullPath;
-  state.selectedKey = route.name
+  state.selectedKey = route.name;
   router.replace(route.fullPath);
 };
 
@@ -168,7 +178,7 @@ const closeLeft = () => {
 const closeRight = () => {
   tabsViewStore.closeRightTabs(route);
   state.activeKey = route.fullPath;
-  state.selectedKey = route.name
+  state.selectedKey = route.name;
   router.replace(route.fullPath);
 };
 
@@ -176,7 +186,7 @@ const closeRight = () => {
 const closeOther = () => {
   tabsViewStore.closeOtherTabs(route);
   state.activeKey = route.fullPath;
-  state.selectedKey = route.name
+  state.selectedKey = route.name;
   router.replace(route.fullPath);
 };
 
@@ -187,17 +197,17 @@ const closeAll = () => {
 };
 
 //tags 跳转页面
-function goPage (tabsKey) {
+function goPage(tabsKey) {
   const { name, fullPath } = route;
-  const goRoute = tabsList.value.find((item) => item.name == tabsKey)
+  const goRoute = tabsList.value.find((item) => item.name == tabsKey);
   if (fullPath === goRoute.fullPath) return;
   state.activeKey = fullPath;
-  state.selectedKey = name
+  state.selectedKey = name;
   go(goRoute, true);
 }
 
 //删除tab
-function closeTabItem (e) {
+function closeTabItem(e) {
   const { fullPath } = e;
   const routeInfo = tabsList.value.find((item) => item.fullPath == fullPath);
   removeTab(routeInfo);

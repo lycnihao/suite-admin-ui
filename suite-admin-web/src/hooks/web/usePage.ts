@@ -1,13 +1,15 @@
-import type { RouteLocationRaw, Router } from 'vue-router';
+import type { RouteLocationRaw, Router } from "vue-router";
 
-import { PageEnum } from '/@/enums/pageEnum';
+import { PageEnum } from "/@/enums/pageEnum";
 
-import { useRouter } from 'vue-router';
-import { unref } from 'vue';
+import { useRouter } from "vue-router";
+import { unref } from "vue";
 
-const RedirectName = 'Redirect';
+const RedirectName = "Redirect";
 
-export type RouteLocationRawEx = Omit<RouteLocationRaw, 'path'> & { path: PageEnum };
+export type RouteLocationRawEx = Omit<RouteLocationRaw, "path"> & {
+  path: PageEnum;
+};
 
 function handleError(e: Error) {
   console.error(e);
@@ -22,12 +24,17 @@ export function useGo(_router?: Router) {
     router = useRouter();
   }
   const { push, replace } = _router || router;
-  function go(opt: PageEnum | RouteLocationRawEx | string = PageEnum.BASE_HOME, isReplace = false) {
+  function go(
+    opt: PageEnum | RouteLocationRawEx | string = PageEnum.BASE_HOME,
+    isReplace = false
+  ) {
     if (!opt) {
       return;
     }
-    if (typeof opt === 'string') {
-      isReplace ? replace(opt).catch(handleError) : push(opt).catch(handleError);
+    if (typeof opt === "string") {
+      isReplace
+        ? replace(opt).catch(handleError)
+        : push(opt).catch(handleError);
     } else {
       const o = opt as RouteLocationRaw;
       isReplace ? replace(o).catch(handleError) : push(o).catch(handleError);
@@ -49,11 +56,11 @@ export const useRedo = (_router?: Router) => {
         return;
       }
       if (name && Object.keys(params).length > 0) {
-        params['_redirect_type'] = 'name';
-        params['path'] = String(name);
+        params["_redirect_type"] = "name";
+        params["path"] = String(name);
       } else {
-        params['_redirect_type'] = 'path';
-        params['path'] = fullPath;
+        params["_redirect_type"] = "path";
+        params["path"] = fullPath;
       }
       push({ name: RedirectName, params, query }).then(() => resolve(true));
     });

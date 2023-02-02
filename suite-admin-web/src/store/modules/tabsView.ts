@@ -1,10 +1,8 @@
-import { defineStore } from 'pinia';
-import { RouteLocationNormalized } from 'vue-router';
-
-
+import { defineStore } from "pinia";
+import { RouteLocationNormalized } from "vue-router";
 
 // 不需要出现在标签页中的路由
-const whiteList = ['Redirect', 'login'];
+const whiteList = ["Redirect", "login"];
 
 export type RouteItem = Partial<RouteLocationNormalized> & {
   fullPath: string;
@@ -26,11 +24,11 @@ function retainAffixRoute(list: any[]) {
 }
 
 export const useTabsViewStore = defineStore({
-  id: 'app-tabs-view',
+  id: "app-tabs-view",
   state: (): ITabsViewState => ({
     tabsList: [],
   }),
-  getters: { },
+  getters: {},
   actions: {
     initTabs(routes) {
       // 初始化标签页
@@ -39,7 +37,9 @@ export const useTabsViewStore = defineStore({
     addTabs(route): boolean {
       // 添加标签页
       if (whiteList.includes(route.name)) return false;
-      const isExists = this.tabsList.some((item) => item.fullPath == route.fullPath);
+      const isExists = this.tabsList.some(
+        (item) => item.fullPath == route.fullPath
+      );
       if (!isExists) {
         this.tabsList.push(route);
       }
@@ -47,21 +47,34 @@ export const useTabsViewStore = defineStore({
     },
     closeLeftTabs(route) {
       // 关闭左侧
-      const index = this.tabsList.findIndex((item) => item.fullPath == route.fullPath);
-      this.tabsList = this.tabsList.filter((item, i) => i >= index || (item?.meta?.affix ?? false));
+      const index = this.tabsList.findIndex(
+        (item) => item.fullPath == route.fullPath
+      );
+      this.tabsList = this.tabsList.filter(
+        (item, i) => i >= index || (item?.meta?.affix ?? false)
+      );
     },
     closeRightTabs(route) {
       // 关闭右侧
-      const index = this.tabsList.findIndex((item) => item.fullPath == route.fullPath);
-      this.tabsList = this.tabsList.filter((item, i) => i <= index || (item?.meta?.affix ?? false));
+      const index = this.tabsList.findIndex(
+        (item) => item.fullPath == route.fullPath
+      );
+      this.tabsList = this.tabsList.filter(
+        (item, i) => i <= index || (item?.meta?.affix ?? false)
+      );
     },
     closeOtherTabs(route) {
       // 关闭其他
-      this.tabsList = this.tabsList.filter((item) => item.fullPath == route.fullPath || (item?.meta?.affix ?? false));
+      this.tabsList = this.tabsList.filter(
+        (item) =>
+          item.fullPath == route.fullPath || (item?.meta?.affix ?? false)
+      );
     },
     closeCurrentTab(route) {
       // 关闭当前页
-      const index = this.tabsList.findIndex((item) => item.fullPath == route.fullPath);
+      const index = this.tabsList.findIndex(
+        (item) => item.fullPath == route.fullPath
+      );
       this.tabsList.splice(index, 1);
     },
     closeAllTabs() {

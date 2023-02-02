@@ -1,5 +1,3 @@
 <template>
-    <div>
-        role
-    </div>
+  <div>role</div>
 </template>

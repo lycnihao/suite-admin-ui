@@ -1,11 +1,13 @@
 <template>
   <a-breadcrumb separator=">" style="display: inline" v-if="breadCrumbFlag">
-    <a-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="index">{{ item.label }}</a-breadcrumb-item>
+    <a-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="index">{{
+      item.label
+    }}</a-breadcrumb-item>
   </a-breadcrumb>
 </template>
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
-import { computed } from 'vue';
+import { useRoute } from "vue-router";
+import { computed } from "vue";
 
 // 是否显示面包屑
 const breadCrumbFlag = true;
@@ -17,7 +19,7 @@ const generator: any = (routerMap) => {
       ...item,
       label: item.meta.title,
       key: item.name,
-      disabled: item.path === '/',
+      disabled: item.path === "/",
     };
     // 是否有子菜单，并递归处理
     if (item.children && item.children.length > 0) {

@@ -1,7 +1,12 @@
 <template>
   <a-layout>
-    <a-layout-sider class="suite-layout-sider" v-model:collapsed="collapsed"
-      :trigger="null" collapsible breakpoint="lg">
+    <a-layout-sider
+      class="suite-layout-sider"
+      v-model:collapsed="collapsed"
+      :trigger="null"
+      collapsible
+      breakpoint="lg"
+    >
       <SiderMenu :theme="theme" :collapsed="collapsed" />
     </a-layout-sider>
     <a-layout>
@@ -9,8 +14,16 @@
         <a-row justify="space-between" class="suite-layout-header-user">
           <a-col class="suite-layout-header-left">
             <span class="collapsed-button">
-              <menu-unfold-outlined v-if="collapsed" class="suite-layout-header-trigger" @click="toggleCollapsed" />
-              <menu-fold-outlined v-else class="suite-layout-header-trigger" @click="toggleCollapsed" />
+              <menu-unfold-outlined
+                v-if="collapsed"
+                class="suite-layout-header-trigger"
+                @click="toggleCollapsed"
+              />
+              <menu-fold-outlined
+                v-else
+                class="suite-layout-header-trigger"
+                @click="toggleCollapsed"
+              />
             </span>
             <a-tooltip placement="bottom">
               <template #title>首页</template>
@@ -19,13 +32,11 @@
               </span>
             </a-tooltip>
             <span class="location-breadcrumb">
-              <MenuBreadcrumb/>
+              <MenuBreadcrumb />
             </span>
           </a-col>
           <!---个人中心-->
-          <a-col class="suite-layout-header-right">
-            user
-          </a-col>
+          <a-col class="suite-layout-header-right"> user </a-col>
         </a-row>
         <TagsView />
       </a-layout-header>
@@ -36,33 +47,33 @@
   </a-layout>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import SiderMenu from './components/side-menu/index.vue'
-import { useRouter } from 'vue-router';
-import MainView from './main-view.vue';
-import TagsView from './components/page-tag/index.vue';
-import MenuBreadcrumb from './components/breadcrumb-menu/index.vue';
-import { PageEnum } from '/@/enums/pageEnum';
+import { defineComponent, ref } from "vue";
+import SiderMenu from "./components/side-menu/index.vue";
+import { useRouter } from "vue-router";
+import MainView from "./main-view.vue";
+import TagsView from "./components/page-tag/index.vue";
+import MenuBreadcrumb from "./components/breadcrumb-menu/index.vue";
+import { PageEnum } from "/@/enums/pageEnum";
 
 export default defineComponent({
-  name: 'SuiteLayout',
+  name: "SuiteLayout",
   components: {
     SiderMenu,
     MenuBreadcrumb,
     TagsView,
     MainView,
   },
-  setup () {
+  setup() {
     const router = useRouter();
-    const theme = ref('dark')
+    const theme = ref("dark");
     const collapsed = ref<boolean>(false);
     const toggleCollapsed = () => {
       collapsed.value = !collapsed.value;
     };
     const routerRedirect = (path: string) => {
-      console.log('redirect:' + path)
+      console.log("redirect:" + path);
       router.replace(path);
-    }
+    };
     return {
       theme,
       collapsed,
@@ -74,8 +85,7 @@ export default defineComponent({
 });
 </script>
 <style lang="less" scoped>
- 
- @header-user-height: 40px;
+@header-user-height: 40px;
 
 :deep(.ant-layout-header) {
   height: 40px;

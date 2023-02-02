@@ -9,16 +9,30 @@
         <div class="view-account-top-desc">Welcome to load in suite admin</div>
       </div>
       <div class="view-account-form">
-        <a-form ref="formRef" label-placement="left" size="large" :model="formInline" :rules="rules">
+        <a-form
+          ref="formRef"
+          label-placement="left"
+          size="large"
+          :model="formInline"
+          :rules="rules"
+        >
           <a-form-item name="username">
-            <a-input v-model:value="formInline.username" placeholder="请输入用户名">
+            <a-input
+              v-model:value="formInline.username"
+              placeholder="请输入用户名"
+            >
               <template #prefix>
                 <user-outlined />
               </template>
             </a-input>
           </a-form-item>
           <a-form-item name="password">
-            <a-input v-model:value="formInline.password" type="password" showPasswordOn="click" placeholder="请输入密码">
+            <a-input
+              v-model:value="formInline.password"
+              type="password"
+              showPasswordOn="click"
+              placeholder="请输入密码"
+            >
               <template #prefix>
                 <lock-outlined />
               </template>
@@ -35,7 +49,13 @@
             </div>
           </a-form-item>
           <a-form-item>
-            <a-button type="primary" @click="handleSubmit" size="large" :loading="loading" block>
+            <a-button
+              type="primary"
+              @click="handleSubmit"
+              size="large"
+              :loading="loading"
+              block
+            >
               登录
             </a-button>
           </a-form-item>
@@ -64,26 +84,26 @@
     </div>
   </div>
 </template>
-  
+
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
-import { message } from 'ant-design-vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useUserStore } from '/@/store/modules/user'
+import { reactive, ref } from "vue";
+import { message } from "ant-design-vue";
+import { useRoute, useRouter } from "vue-router";
+import { useUserStore } from "/@/store/modules/user";
 
 const formRef = ref();
 const loading = ref(false);
 const autoLogin = ref(true);
 
 const formInline = reactive({
-  username: 'admin',
-  password: '123456',
+  username: "admin",
+  password: "123456",
   isCaptcha: true,
 });
 
 const rules = {
-  username: { required: true, message: '请输入用户名', trigger: 'blur' },
-  password: { required: true, message: '请输入密码', trigger: 'blur' },
+  username: { required: true, message: "请输入用户名", trigger: "blur" },
+  password: { required: true, message: "请输入密码", trigger: "blur" },
 };
 
 const router = useRouter();
@@ -91,7 +111,7 @@ const route = useRoute();
 const userStore = useUserStore();
 const handleSubmit = () => {
   formRef.value.validateFields().then(async () => {
-    message.loading('登录中...');
+    message.loading("登录中...");
     loading.value = true;
     const { username, password } = formInline;
     const params = {
@@ -100,24 +120,26 @@ const handleSubmit = () => {
     };
 
     try {
-        const { code, message: msg } = await userStore.login(params);
-        message.destroy();
-        if (code == 200) {
-          const toPath = decodeURIComponent((route.query?.redirect || '/') as string);
-          message.success('登录成功，即将进入系统');
-          if (route.name === 'Login') {
-            router.replace('/home');
-          } else router.replace(toPath);
-        } else {
-          message.info(msg || '登录失败');
-        }
-      } finally {
-        loading.value = false;
+      const { code, message: msg } = await userStore.login(params);
+      message.destroy();
+      if (code == 200) {
+        const toPath = decodeURIComponent(
+          (route.query?.redirect || "/") as string
+        );
+        message.success("登录成功，即将进入系统");
+        if (route.name === "Login") {
+          router.replace("/home");
+        } else router.replace(toPath);
+      } else {
+        message.info(msg || "登录失败");
       }
+    } finally {
+      loading.value = false;
+    }
   });
-}
+};
 </script>
-  
+
 <style lang="less" scoped>
 .view-account {
   display: flex;
@@ -174,11 +196,10 @@ const handleSubmit = () => {
 
 @media (min-width: 768px) {
   .view-account {
-    background-image: url('/@/assets/login.svg');
+    background-image: url("/@/assets/login.svg");
     background-repeat: no-repeat;
     background-position: 50%;
     background-size: 100%;
   }
 }
 </style>
-  

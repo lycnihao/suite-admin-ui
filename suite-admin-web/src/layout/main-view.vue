@@ -11,17 +11,19 @@
   </RouterView>
 </template>
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
-import { useAsyncRouteStore } from '/@/store/modules/asyncRoute';
+import { defineComponent, computed } from "vue";
+import { useAsyncRouteStore } from "/@/store/modules/asyncRoute";
 
 export default defineComponent({
-  name: 'MainView',
-  setup () {
+  name: "MainView",
+  setup() {
     const asyncRouteStore = useAsyncRouteStore();
 
     // 需要缓存的路由组件
-    const keepAliveComponents = computed(() => asyncRouteStore.keepAliveComponents);
-    console.log(keepAliveComponents)
+    const keepAliveComponents = computed(
+      () => asyncRouteStore.keepAliveComponents
+    );
+    console.log(keepAliveComponents);
 
     return {
       keepAliveComponents,

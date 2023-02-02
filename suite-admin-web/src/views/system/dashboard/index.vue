@@ -1,5 +1,3 @@
 <template>
-    <dev>
-        home
-    </dev>
+  <dev> home </dev>
 </template>
