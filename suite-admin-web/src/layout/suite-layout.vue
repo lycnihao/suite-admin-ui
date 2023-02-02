@@ -2,13 +2,7 @@
   <a-layout>
     <a-layout-sider class="suite-layout-sider" v-model:collapsed="collapsed"
       :trigger="null" collapsible breakpoint="lg">
-      <div class="suite-layout-sider-logo">
-        <transition mode="out-in">
-          <img src="../assets/logo.svg" alt="" v-if="!collapsed"/>
-          <img src="../assets/logo-thumbnail.svg" alt="" style="width:80px" v-else/>
-        </transition>
-      </div>
-      <Menu :theme="theme" :collapsed="collapsed" />
+      <SiderMenu :theme="theme" :collapsed="collapsed" />
     </a-layout-sider>
     <a-layout>
       <a-layout-header class="suite-layout-header">
@@ -43,17 +37,17 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import Menu from './sider-menu.vue'
+import SiderMenu from './components/side-menu/index.vue'
 import { useRouter } from 'vue-router';
 import MainView from './main-view.vue';
-import TagsView from './tags-view.vue';
-import MenuBreadcrumb from './menu-breadcrumb.vue';
+import TagsView from './components/page-tag/index.vue';
+import MenuBreadcrumb from './components/breadcrumb-menu/index.vue';
 import { PageEnum } from '/@/enums/pageEnum';
 
 export default defineComponent({
   name: 'SuiteLayout',
   components: {
-    Menu,
+    SiderMenu,
     MenuBreadcrumb,
     TagsView,
     MainView,
@@ -93,10 +87,6 @@ export default defineComponent({
   left: 0;
   top: 0;
   bottom: 0;
-
-  &-logo>img {
-    padding: 10px 19px 4px;
-  }
 }
 
 .suite-layout-header {

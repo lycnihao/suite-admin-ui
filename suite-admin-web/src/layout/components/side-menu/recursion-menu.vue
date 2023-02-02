@@ -25,7 +25,7 @@
 import { defineComponent, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useAsyncRouteStore } from '/@/store/modules/asyncRoute';
-import SubMenu from '/@/layout/sider-menu-sub.vue';
+import SubMenu from './sider-menu-sub.vue';
 
 export default defineComponent({
     name: 'SiderMenu',
