@@ -12,8 +12,27 @@
     </a-layout-sider>
     <a-layout>
       <a-layout-header class="suite-layout-header">
-        <menu-unfold-outlined v-if="collapsed" class="suite-layout-header-trigger" @click="toggleCollapsed" />
-        <menu-fold-outlined v-else class="suite-layout-header-trigger" @click="toggleCollapsed" />
+        <a-row justify="space-between" class="suite-layout-header-user">
+          <a-col class="suite-layout-header-left">
+            <span class="collapsed-button">
+              <menu-unfold-outlined v-if="collapsed" class="suite-layout-header-trigger" @click="toggleCollapsed" />
+              <menu-fold-outlined v-else class="suite-layout-header-trigger" @click="toggleCollapsed" />
+            </span>
+            <a-tooltip placement="bottom">
+              <template #title>首页</template>
+              <span class="home-button" @click="goHome">
+                <home-outlined class="trigger" />
+              </span>
+            </a-tooltip>
+            <span class="location-breadcrumb">
+              <MenuBreadcrumb/>
+            </span>
+          </a-col>
+          <!---个人中心-->
+          <a-col class="suite-layout-header-right">
+            user
+          </a-col>
+        </a-row>
         <TagsView />
       </a-layout-header>
       <a-layout-content class="suite-layout-content">
@@ -28,13 +47,16 @@ import Menu from './sider-menu.vue'
 import { useRouter } from 'vue-router';
 import MainView from './main-view.vue';
 import TagsView from './tags-view.vue';
+import MenuBreadcrumb from './menu-breadcrumb.vue';
+import { PageEnum } from '/@/enums/pageEnum';
 
 export default defineComponent({
   name: 'SuiteLayout',
   components: {
     Menu,
+    MenuBreadcrumb,
     TagsView,
-    MainView
+    MainView,
   },
   setup () {
     const router = useRouter();
@@ -52,11 +74,15 @@ export default defineComponent({
       collapsed,
       routerRedirect,
       toggleCollapsed,
+      goHome: () => routerRedirect(PageEnum.BASE_HOME),
     };
   },
 });
 </script>
 <style lang="less" scoped>
+ 
+ @header-user-height: 40px;
+
 :deep(.ant-layout-header) {
   height: 40px;
   line-height: 45px;
@@ -86,6 +112,42 @@ export default defineComponent({
 
   &-trigger:hover {
     color: #1890ff;
+  }
+
+  .suite-layout-header-user {
+    height: @header-user-height;
+    border-bottom: 1px solid #f6f6f6;
+  }
+
+  .suite-layout-header-left {
+    display: flex;
+    height: @header-user-height;
+
+    .collapsed-button {
+      margin-left: 10px;
+      line-height: @header-user-height;
+    }
+
+    .home-button {
+      margin-left: 15px;
+      cursor: pointer;
+      padding: 0 5px;
+      line-height: @header-user-height;
+    }
+
+    .home-button:hover {
+      background-color: #efefef;
+    }
+
+    .location-breadcrumb {
+      margin-left: 15px;
+      line-height: @header-user-height;
+    }
+  }
+
+  .suite-layout-header-right {
+    display: flex;
+    height: @header-user-height;
   }
 }
 
