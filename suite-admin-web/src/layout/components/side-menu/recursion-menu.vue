@@ -25,7 +25,7 @@
   </a-menu>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useAsyncRouteStore } from "/@/store/modules/asyncRoute";
 import SubMenu from "./sider-menu-sub.vue";
@@ -59,11 +59,20 @@ export default defineComponent({
       console.log("redirect:" + path);
       router.replace(path);
     };
+
+    let currentRouteName = ref<any[]>([route.name]);
+    watch(
+      () => router.currentRoute.value,
+      (newValue: any) => {
+        currentRouteName.value = [newValue.name];
+      }
+    );
+
     return {
       routerRedirect,
       menusList,
       openKeys: getOpenKeys,
-      selectedKeys: ref<any[]>([route.name]),
+      selectedKeys: currentRouteName,
       inlineCollapsed: ref<boolean>(false),
     };
   },
