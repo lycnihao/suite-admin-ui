@@ -11,7 +11,7 @@
         <a-menu-item>
           <span>刷新权限</span>
         </a-menu-item>
-        <a-menu-item>
+        <a-menu-item @click="showUpdatePwdModal">
           <span>修改密码</span>
         </a-menu-item>
         <a-menu-item>
@@ -20,7 +20,17 @@
       </a-menu>
     </template>
   </a-dropdown>
+  <ResetPassword ref="resetPasswordRef" />
 </template>
+<script setup lang="ts">
+import { ref } from "vue";
+import ResetPassword from "./reset-password.vue";
+
+const resetPasswordRef = ref();
+function showUpdatePwdModal() {
+  resetPasswordRef.value.showModal();
+}
+</script>
 <style lang="less" scoped>
 @header-user-height: 40px;
 .wrapper {

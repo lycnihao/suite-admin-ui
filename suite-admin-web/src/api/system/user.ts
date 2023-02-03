@@ -23,6 +23,17 @@ export function getUserInfo() {
 }
 
 /**
+ * @description: 修改用户密码
+ */
+export function updatePassword(params: any) {
+  return http.request<BasicResponseModel>({
+    url: "/user/updatePassword",
+    method: "post",
+    data: params,
+  });
+}
+
+/**
  * @description: 获取用户信息
  */
 export function getUserInfoById(id: number) {
