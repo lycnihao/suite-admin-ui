@@ -17,6 +17,18 @@ export default [
     },
   },
   {
+    url: "/logout",
+    timeout: 2000,
+    method: "post",
+    response: () => {
+      return {
+        code: 200,
+        message: "ok",
+        type: "success",
+      };
+    },
+  },
+  {
     url: "/user/updatePassword",
     timeout: 2000,
     method: "post",

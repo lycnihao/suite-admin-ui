@@ -14,7 +14,7 @@
         <a-menu-item @click="showUpdatePwdModal">
           <span>修改密码</span>
         </a-menu-item>
-        <a-menu-item>
+        <a-menu-item @click="doLogout">
           <span>退出登录</span>
         </a-menu-item>
       </a-menu>
@@ -24,12 +24,45 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
+import { Modal, message } from "ant-design-vue";
+import { useUserStore } from "/@/store/modules/user";
+import { TABS_ROUTES } from "/@/store/mutation-types";
 import ResetPassword from "./reset-password.vue";
+import { useRoute, useRouter } from "vue-router";
 
 const resetPasswordRef = ref();
 function showUpdatePwdModal() {
   resetPasswordRef.value.showModal();
 }
+
+const route = useRoute();
+const router = useRouter();
+const userStore = useUserStore();
+// 退出登录
+const doLogout = () => {
+  Modal.confirm({
+    title: "提示",
+    content: "您确定要退出登录吗",
+    okText: "确定",
+    cancelText: "取消",
+    onOk: () => {
+      userStore.logout().then(() => {
+        message.success("成功退出登录");
+        // 移除标签页
+        localStorage.removeItem(TABS_ROUTES);
+        router
+          .replace({
+            name: "Login",
+            query: {
+              redirect: route.fullPath,
+            },
+          })
+          .finally(() => location.reload());
+      });
+    },
+    onCancel: () => {},
+  });
+};
 </script>
 <style lang="less" scoped>
 @header-user-height: 40px;
