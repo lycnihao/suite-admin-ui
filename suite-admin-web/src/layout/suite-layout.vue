@@ -45,6 +45,9 @@
       <a-layout-content class="suite-layout-content">
         <MainView />
       </a-layout-content>
+      <a-layout-footer class="layout-footer">
+        <PageFooter/>
+      </a-layout-footer>
     </a-layout>
   </a-layout>
 </template>
@@ -56,6 +59,7 @@ import MainView from "./main-view.vue";
 import TagsView from "./components/page-tag/index.vue";
 import MenuBreadcrumb from "./components/breadcrumb-menu/index.vue";
 import HeaderUserSpace from "./components/header-user-space/index.vue";
+import PageFooter from "./components/page-footer/index.vue";
 import { PageEnum } from "/@/enums/pageEnum";
 
 export default defineComponent({
@@ -66,6 +70,7 @@ export default defineComponent({
     HeaderUserSpace,
     TagsView,
     MainView,
+    PageFooter,
   },
   setup() {
     const router = useRouter();
@@ -159,9 +164,16 @@ export default defineComponent({
 }
 
 .suite-layout-content {
-  margin: 56px 16px 24px;
+  margin: 56px 16px 0 24px;
   padding: 24px;
   background: #fff;
   min-height: 280px;
+}
+
+.layout-footer {
+  position: relative;
+  padding: 7px 0px;
+  display: flex;
+  justify-content: center;
 }
 </style>
