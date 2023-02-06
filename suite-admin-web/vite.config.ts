@@ -1,28 +1,68 @@
 import type { UserConfig, ConfigEnv } from "vite";
+import { loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
-import { resolve } from "path";
 import { viteMockServe } from "vite-plugin-mock";
+import { createHtmlPlugin } from "vite-plugin-html";
+import { resolve } from "path";
+import pkg from "./package.json";
 
 const pathResolve = (dir) => {
   return resolve(__dirname, ".", dir);
 };
 
-// const configMockPlugin = (command) => {
-//   return viteMockServe({
-//     ignore: /^\_/,
-//     mockPath: 'mock',
-//     localEnabled: command === 'serve',
-//     prodEnabled: command !== 'serve',
-//     injectCode: `
-//        import { setupProdMockServer } from './mock/_createProductionServer';
+const configMockPlugin = (command) => {
+  return viteMockServe({
+    ignore: /^\_/,
+    mockPath: "mock",
+    localEnabled: command === "serve",
+    prodEnabled: command !== "serve",
+    injectCode: `
+       import { setupProdMockServer } from './mock/_createProductionServer';
 
-//        setupProdMockServer();
-//        `,
-//   });
-// }
+       setupProdMockServer();
+       `,
+  });
+};
+
+const configHtmlPlugin = (env, isBuild) => {
+  const VITE_PUBLIC_PATH = "/";
+
+  const path = VITE_PUBLIC_PATH.endsWith("/")
+    ? VITE_PUBLIC_PATH
+    : `${VITE_PUBLIC_PATH}/`;
+  const getAppConfigSrc = () => {
+    return `${path || "/"}app.config.js?v=${
+      pkg.version
+    }-${new Date().getTime()}`;
+  };
+
+  return createHtmlPlugin({
+    minify: isBuild,
+    inject: {
+      // Inject data into ejs template
+      data: {
+        title: env.VITE_GLOB_APP_TITLE,
+      },
+      // Embed the generated app.config.js file
+      tags: isBuild
+        ? [
+            {
+              tag: "script",
+              attrs: {
+                src: getAppConfigSrc(),
+              },
+            },
+          ]
+        : [],
+    },
+  });
+};
 
 // https://vitejs.dev/config/
 export default ({ command, mode }: ConfigEnv): UserConfig => {
+  const env = loadEnv(mode, process.cwd());
+  console.log("启动模式:" + mode);
+  console.log("环境变量:", env);
   return {
     resolve: {
       // 绝对路径重命名：/@/xxxx => src/xxxx
@@ -46,7 +86,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     // 服务端渲染
     server: {
       host: "0.0.0.0",
-      port: 8001,
+      port: Number(env.VITE_PORT),
     },
     css: {
       preprocessorOptions: {
@@ -60,19 +100,6 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         },
       },
     },
-    plugins: [
-      vue(),
-      viteMockServe({
-        ignore: /^\_/,
-        mockPath: "mock",
-        localEnabled: command === "serve",
-        prodEnabled: command !== "serve",
-        injectCode: `
-          import { setupProdMockServer } from './mock/_createProductionServer';
-    
-          setupProdMockServer();
-          `,
-      }),
-    ],
+    plugins: [vue(), configMockPlugin(command), configHtmlPlugin(env, false)],
   };
 };
