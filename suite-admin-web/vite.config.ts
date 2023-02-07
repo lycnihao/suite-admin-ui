@@ -4,20 +4,19 @@ import vue from "@vitejs/plugin-vue";
 import { viteMockServe } from "vite-plugin-mock";
 import { createHtmlPlugin } from "vite-plugin-html";
 import { resolve } from "path";
-import pkg from "./package.json";
 
 const pathResolve = (dir) => {
   return resolve(__dirname, ".", dir);
 };
 
-const configMockPlugin = (command) => {
+const configMockPlugin = (isBuild) => {
   return viteMockServe({
     ignore: /^\_/,
     mockPath: "mock",
-    localEnabled: command === "serve",
-    prodEnabled: command !== "serve",
+    localEnabled: !isBuild,
+    prodEnabled: isBuild,
     injectCode: `
-       import { setupProdMockServer } from './mock/_createProductionServer';
+       import { setupProdMockServer } from '../mock/_createProductionServer';
 
        setupProdMockServer();
        `,
@@ -25,17 +24,6 @@ const configMockPlugin = (command) => {
 };
 
 const configHtmlPlugin = (env, isBuild) => {
-  const VITE_PUBLIC_PATH = "/";
-
-  const path = VITE_PUBLIC_PATH.endsWith("/")
-    ? VITE_PUBLIC_PATH
-    : `${VITE_PUBLIC_PATH}/`;
-  const getAppConfigSrc = () => {
-    return `${path || "/"}app.config.js?v=${
-      pkg.version
-    }-${new Date().getTime()}`;
-  };
-
   return createHtmlPlugin({
     minify: isBuild,
     inject: {
@@ -43,17 +31,6 @@ const configHtmlPlugin = (env, isBuild) => {
       data: {
         title: env.VITE_GLOB_APP_TITLE,
       },
-      // Embed the generated app.config.js file
-      tags: isBuild
-        ? [
-            {
-              tag: "script",
-              attrs: {
-                src: getAppConfigSrc(),
-              },
-            },
-          ]
-        : [],
     },
   });
 };
@@ -61,18 +38,15 @@ const configHtmlPlugin = (env, isBuild) => {
 // https://vitejs.dev/config/
 export default ({ command, mode }: ConfigEnv): UserConfig => {
   const env = loadEnv(mode, process.cwd());
-  console.log("启动模式:" + mode);
-  console.log("环境变量:", env);
+  console.log("mode:", mode);
+  console.log("command:", command);
+  console.log("env:", env);
+  const VITE_PORT = Number(env.VITE_PORT);
+  const isBuild = command === "build";
   return {
     resolve: {
       // 绝对路径重命名：/@/xxxx => src/xxxx
       alias: [
-        // 国际化替换
-        // {
-        //   find: 'vue-i18n',
-        //   replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
-        // },
-        // 绝对路径重命名：/@/xxxx => src/xxxx
         {
           find: /\/@\//,
           replacement: pathResolve("src") + "/",
@@ -86,7 +60,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     // 服务端渲染
     server: {
       host: "0.0.0.0",
-      port: Number(env.VITE_PORT),
+      port: VITE_PORT,
     },
     css: {
       preprocessorOptions: {
@@ -100,6 +74,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         },
       },
     },
-    plugins: [vue(), configMockPlugin(command), configHtmlPlugin(env, false)],
+    build: {
+      reportCompressedSize: false,
+      chunkSizeWarningLimit: 3000,
+    },
+    plugins: [vue(), configMockPlugin(isBuild), configHtmlPlugin(env, isBuild)],
   };
 };
