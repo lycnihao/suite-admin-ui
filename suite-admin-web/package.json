@@ -1,10 +1,10 @@
 {
   "name": "suite-admin-web",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite",
+    "prod": "vite build  --mode production",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix --ext .ts,.vue src"
