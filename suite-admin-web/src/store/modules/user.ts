@@ -56,7 +56,8 @@ export const useUserStore = defineStore({
         console.log(response);
         const { data, code } = response;
         if (code === 200) {
-          const ex = 60 * 60 * 1000;
+          // token有效期1小时
+          const ex = 60 * 60;
           storage.set(ACCESS_TOKEN, data["access_token"], ex);
           storage.set(CURRENT_USER, data, ex);
           this.setToken(data["access_token"]);
