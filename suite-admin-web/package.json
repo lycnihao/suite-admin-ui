@@ -2,6 +2,11 @@
   "name": "suite-admin-web",
   "private": true,
   "version": "0.0.1",
+  "author": {
+    "name": "Koodar",
+    "email": "liyunacheng@koodar.net",
+    "url": "https://koodar.net"
+  },
   "scripts": {
     "dev": "vite",
     "prod": "vite build  --mode production",
