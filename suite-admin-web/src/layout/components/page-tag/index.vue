@@ -2,7 +2,6 @@
   <!-- 标签页，共两部分：1、标签 ；2、标签操作区 -->
   <a-row
     style="border-bottom: 1px solid #eeeeee; position: relative; top: -4px"
-    v-show="pageTagFlag"
   >
     <a-dropdown :trigger="['contextmenu']">
       <div class="suite-page-tag">
@@ -67,8 +66,6 @@ import { useGo } from "/@/hooks/web/usePage";
 import { storage } from "/@/utils/storage";
 import { TABS_ROUTES } from "/@/store/mutation-types";
 
-//标签页 是否显示
-const pageTagFlag = true;
 
 const router = useRouter();
 const route = useRoute();

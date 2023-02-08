@@ -3,6 +3,7 @@
     <a-layout-sider
       class="suite-layout-sider"
       v-model:collapsed="collapsed"
+      :theme="theme"
       :trigger="null"
       collapsible
       breakpoint="lg"
@@ -32,7 +33,7 @@
               </span>
             </a-tooltip>
             <span class="location-breadcrumb">
-              <MenuBreadcrumb />
+              <MenuBreadcrumb v-show="breadCrumbFlag" />
             </span>
           </a-col>
           <!---用戶操作区域-->
@@ -40,19 +41,19 @@
             <HeaderUserSpace />
           </a-col>
         </a-row>
-        <TagsView />
+        <TagsView v-show="pageTagFlag" />
       </a-layout-header>
       <a-layout-content class="suite-layout-content">
         <MainView />
       </a-layout-content>
       <a-layout-footer class="layout-footer">
-        <PageFooter/>
+        <PageFooter v-show="footerFlag" />
       </a-layout-footer>
     </a-layout>
   </a-layout>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, computed } from "vue";
 import SiderMenu from "./components/side-menu/index.vue";
 import { useRouter } from "vue-router";
 import MainView from "./main-view.vue";
@@ -61,6 +62,7 @@ import MenuBreadcrumb from "./components/breadcrumb-menu/index.vue";
 import HeaderUserSpace from "./components/header-user-space/index.vue";
 import PageFooter from "./components/page-footer/index.vue";
 import { PageEnum } from "/@/enums/pageEnum";
+import { useProjectSettingStore } from "/@/store/modules/projectSetting";
 
 export default defineComponent({
   name: "SuiteLayout",
@@ -74,7 +76,6 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
-    const theme = ref("dark");
     const collapsed = ref<boolean>(false);
     const toggleCollapsed = () => {
       collapsed.value = !collapsed.value;
@@ -83,8 +84,20 @@ export default defineComponent({
       console.log("redirect:" + path);
       router.replace(path);
     };
+    const settingStore = useProjectSettingStore();
+    //主题颜色
+    const theme = computed(() => settingStore.$state.sideMenuTheme);
+    // 是否显示面包屑
+    const breadCrumbFlag = computed(() => settingStore.$state.breadCrumbFlag);
+    // 是否显示标签页
+    const pageTagFlag = computed(() => settingStore.$state.pageTagFlag);
+    // 是否显示页脚
+    const footerFlag = computed(() => settingStore.$state.footerFlag);
     return {
       theme,
+      breadCrumbFlag,
+      pageTagFlag,
+      footerFlag,
       collapsed,
       routerRedirect,
       toggleCollapsed,
@@ -94,7 +107,6 @@ export default defineComponent({
 });
 </script>
 <style lang="less" scoped>
-
 :deep(.ant-layout-header) {
   height: 40px;
   line-height: 45px;

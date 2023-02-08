@@ -1,5 +1,5 @@
 <template>
-  <a-breadcrumb separator=">" style="display: inline" v-if="breadCrumbFlag">
+  <a-breadcrumb separator=">" style="display: inline">
     <a-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="index">{{
       item.label
     }}</a-breadcrumb-item>
@@ -8,9 +8,6 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { computed } from "vue";
-
-// 是否显示面包屑
-const breadCrumbFlag = true;
 
 let currentRoute = useRoute();
 const generator: any = (routerMap) => {
