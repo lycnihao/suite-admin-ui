@@ -65,12 +65,10 @@ const doLogout = () => {
 };
 </script>
 <style lang="less" scoped>
-@header-user-height: 40px;
 .wrapper {
   cursor: pointer;
   display: flex;
   align-items: center;
-  padding-right: 12px;
 }
 .header-trigger {
   height: @header-user-height;

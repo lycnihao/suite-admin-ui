@@ -94,7 +94,6 @@ export default defineComponent({
 });
 </script>
 <style lang="less" scoped>
-@header-user-height: 40px;
 
 :deep(.ant-layout-header) {
   height: 40px;
