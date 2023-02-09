@@ -2,30 +2,18 @@
   <a-drawer
     title="项目配置"
     placement="right"
+    width="305"
     :visible="visible"
     @close="close"
   >
-    <a-form layout="horizontal" :label-col="{ span: 8 }">
-      <a-form-item label="菜单布局">
-        <a-radio-group
-          @change="changeLayout"
-          button-style="solid"
-          v-model:value="formState.layout"
-        >
-          <a-radio-button key="side" value="side"> 传统菜单 </a-radio-button>
-          <a-radio-button key="side-expand" value="side-expand">
-            展开菜单
-          </a-radio-button>
-        </a-radio-group>
-      </a-form-item>
+    <a-form layout="horizontal" :label-col="{ span: 7 }">
       <a-form-item label="菜单主题">
         <a-radio-group
           v-model:value="formState.sideMenuTheme"
-          button-style="solid"
           @change="changeMenuTheme"
         >
-          <a-radio-button value="dark">Dark</a-radio-button>
-          <a-radio-button value="light">Light</a-radio-button>
+          <a-radio-button value="dark">暗黑</a-radio-button>
+          <a-radio-button value="light">白色</a-radio-button>
         </a-radio-group>
       </a-form-item>
       <a-form-item label="面包屑">
@@ -118,8 +106,6 @@ useProjectSettingStore().$subscribe((mutation, state) => {
 
 // 表单
 let formValue = {
-  // 布局: side 或者 side-expand
-  layout: projectSettingStore.layout,
   // 菜单主题
   sideMenuTheme: projectSettingStore.sideMenuTheme,
   // 标签页
@@ -130,12 +116,6 @@ let formValue = {
   footerFlag: projectSettingStore.footerFlag,
 };
 let formState = reactive({ ...formValue });
-
-function changeLayout(e) {
-  projectSettingStore.$patch({
-    layout: e.target.value,
-  });
-}
 
 function changeMenuTheme(e) {
   projectSettingStore.$patch({
