@@ -1,6 +1,6 @@
 <template>
   <a-dropdown trigger="click" v-model:visible="show">
-    <div @click="fetchMessage">
+    <div @click="fetchMessage" style="padding: 0 10px">
       <a-badge count="12">
         <div style="width: 26px; height: 26px">
           <BellOutlined :style="{ fontSize: '18px' }" />

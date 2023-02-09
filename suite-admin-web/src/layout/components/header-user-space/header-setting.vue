@@ -1,4 +1,9 @@
 <template>
+  <a-button type="text" @click="show" style="margin-right: 14px">
+    <template #icon>
+      <setting-outlined :style="{ fontSize: '18px' }"
+    /></template>
+  </a-button>
   <a-drawer
     title="项目配置"
     placement="right"
