@@ -1,6 +1,6 @@
 <template>
   <!-- 标签页，共两部分：1、标签 ；2、标签操作区 -->
-  <a-row style="position: relative; top: -4px">
+  <a-row style="position: relative">
     <a-dropdown :trigger="['contextmenu']">
       <div class="suite-page-tag">
         <a-tabs

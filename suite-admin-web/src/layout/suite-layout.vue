@@ -142,7 +142,7 @@ export default defineComponent({
 
   .suite-layout-header-user {
     height: @header-user-height;
-    // border-bottom: 1px solid #f6f6f6;
+    border-bottom: 1px solid fade(@text-color, 4%);
   }
 
   .suite-layout-header-left {
