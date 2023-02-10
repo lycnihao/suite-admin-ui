@@ -27,9 +27,9 @@
               />
             </span>
             <a-tooltip placement="bottom">
-              <template #title>首页</template>
-              <span class="home-button" @click="goHome">
-                <home-outlined class="trigger" />
+              <template #title>刷新</template>
+              <span class="home-button" @click="reloadPage">
+                <reload-outlined class="trigger" />
               </span>
             </a-tooltip>
             <span class="location-breadcrumb">
@@ -53,15 +53,14 @@
   </a-layout>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, ref, unref, computed } from "vue";
 import SiderMenu from "./components/side-menu/index.vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import MainView from "./main-view.vue";
 import TagsView from "./components/page-tag/index.vue";
 import MenuBreadcrumb from "./components/breadcrumb-menu/index.vue";
 import HeaderUserSpace from "./components/header-user-space/index.vue";
 import PageFooter from "./components/page-footer/index.vue";
-import { PageEnum } from "/@/enums/pageEnum";
 import { useProjectSettingStore } from "/@/store/modules/projectSetting";
 
 export default defineComponent({
@@ -75,6 +74,7 @@ export default defineComponent({
     PageFooter,
   },
   setup() {
+    const route = useRoute();
     const router = useRouter();
     const collapsed = ref<boolean>(false);
     const toggleCollapsed = () => {
@@ -83,6 +83,12 @@ export default defineComponent({
     const routerRedirect = (path: string) => {
       console.log("redirect:" + path);
       router.replace(path);
+    };
+    // 刷新页面
+    const reloadPage = () => {
+      router.push({
+        path: "?redirect=" + unref(route).fullPath,
+      });
     };
     const settingStore = useProjectSettingStore();
     //主题颜色
@@ -101,7 +107,7 @@ export default defineComponent({
       collapsed,
       routerRedirect,
       toggleCollapsed,
-      goHome: () => routerRedirect(PageEnum.BASE_HOME),
+      reloadPage,
     };
   },
 });
