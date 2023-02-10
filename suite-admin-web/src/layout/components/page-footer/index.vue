@@ -14,12 +14,12 @@
 
   a {
     font-size: 14px;
-    color: #808695;
+    color: fade(@text-color, 75%);
     -webkit-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
 
     &:hover {
-      color: #515a6e;
+      color: @text-color-secondary;
     }
   }
 
@@ -34,7 +34,7 @@
   }
 
   .copyright {
-    color: #808695;
+    color: fade(@text-color, 75%);
     font-size: 14px;
   }
 }

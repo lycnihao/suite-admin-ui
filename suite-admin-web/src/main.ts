@@ -2,7 +2,7 @@ import * as antIcons from "@ant-design/icons-vue";
 import Antd from "ant-design-vue";
 import { createApp } from "vue";
 import App from "./App.vue";
-import "/@/theme/index.less";
+import "/@/styles/index.less";
 import router, { setupRouter } from "/@/router/index";
 import { setupStore } from "/@/store";
 import "nprogress/nprogress.css";

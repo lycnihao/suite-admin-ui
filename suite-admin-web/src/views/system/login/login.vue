@@ -164,7 +164,7 @@ const handleSubmit = () => {
     }
     &-desc {
       font-size: 14px;
-      color: #808695;
+      color: @text-color-secondary;
     }
   }
 
@@ -181,7 +181,7 @@ const handleSubmit = () => {
   }
 
   .default-color {
-    color: #515a6e;
+    color: fade(@text-color, 75%);
   }
 }
 
@@ -191,7 +191,7 @@ const handleSubmit = () => {
 }
 
 .icon {
-  color: #515a6e;
+  color: fade(@text-color, 55%);
 }
 
 @media (min-width: 768px) {
@@ -200,6 +200,7 @@ const handleSubmit = () => {
     background-repeat: no-repeat;
     background-position: 50%;
     background-size: 100%;
+    background-color: @body-background;
   }
 }
 </style>

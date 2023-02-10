@@ -151,8 +151,8 @@ kbd {
   border-width: 1px;
   width: 1.25rem;
   margin-right: 0.25rem;
-  box-shadow: 1px 1px #0000;
-  border: 1px solid rgb(0 0 0 / 20%);
+  box-shadow: 1px 1px @black;
+  border: 1px solid fade(@black, 75%);
   border-radius: 4px;
 }
 .cursor-pointer {
@@ -173,13 +173,7 @@ kbd {
   }
   &:hover,
   &-active {
-    background-color: #f4f4f4;
+    background-color: fade(@black, 5%);
   }
-  //   &:hover &-title {
-  //     color: #fff;
-  //   }
-  //   &:hover &-description {
-  //     color: #fff;
-  //   }
 }
 </style>

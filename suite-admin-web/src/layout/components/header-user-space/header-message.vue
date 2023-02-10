@@ -108,7 +108,7 @@ const fetchMessage = () => {
 }
 
 .dropdown-tabs {
-  background-color: #fff;
+  background-color: @component-background;
   box-shadow: 0 2px 8px #00000026;
   border-radius: 4px;
 }

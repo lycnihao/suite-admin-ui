@@ -120,7 +120,7 @@ export default defineComponent({
 }
 
 .suite-layout-header {
-  background: #fff;
+  background: @component-background;
   padding: 0;
 
   &-trigger {
@@ -131,12 +131,12 @@ export default defineComponent({
   }
 
   &-trigger:hover {
-    color: #1890ff;
+    color: @link-hover-color;
   }
 
   .suite-layout-header-user {
     height: @header-user-height;
-    border-bottom: 1px solid #f6f6f6;
+    // border-bottom: 1px solid #f6f6f6;
   }
 
   .suite-layout-header-left {
@@ -159,7 +159,7 @@ export default defineComponent({
     }
 
     .home-button:hover {
-      background-color: #efefef;
+      color: @link-hover-color;
     }
 
     .location-breadcrumb {
@@ -177,7 +177,7 @@ export default defineComponent({
 .suite-layout-content {
   margin: 56px 16px 0 24px;
   padding: 24px;
-  background: #fff;
+  background: @component-background;
   min-height: 280px;
 }
 

@@ -67,7 +67,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         less: {
           modifyVars: {
             hack: `true; @import (reference) "${resolve(
-              "src/theme/index.less"
+              "src/styles/index.less"
             )}";`,
           },
           javascriptEnabled: true,

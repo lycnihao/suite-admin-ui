@@ -1,8 +1,6 @@
 <template>
   <!-- 标签页，共两部分：1、标签 ；2、标签操作区 -->
-  <a-row
-    style="border-bottom: 1px solid #eeeeee; position: relative; top: -4px"
-  >
+  <a-row style="position: relative; top: -4px">
     <a-dropdown :trigger="['contextmenu']">
       <div class="suite-page-tag">
         <a-tabs
@@ -65,7 +63,6 @@ import { useAsyncRouteStore } from "/@/store/modules/asyncRoute";
 import { useGo } from "/@/hooks/web/usePage";
 import { storage } from "/@/utils/storage";
 import { TABS_ROUTES } from "/@/store/mutation-types";
-
 
 const router = useRouter();
 const route = useRoute();
@@ -217,14 +214,14 @@ function closeTabItem(e) {
 .suite-page-tag-operate {
   width: @suite-page-tag-operate-width;
   height: @suite-page-tag-operate-width;
-  background-color: #ffffff;
+  background-color: @component-background;
   font-size: 17px;
   text-align: center;
   vertical-align: middle;
   line-height: @suite-page-tag-operate-width;
   padding-right: 10px;
   cursor: pointer;
-  color: #606266;
+  color: @text-color-secondary;
 
   .suite-page-tag-operate-icon {
     width: 20px;
@@ -255,20 +252,12 @@ function closeTabItem(e) {
   padding-right: 20px;
   padding-left: 20px;
   user-select: none;
-  background: #fff;
+  background: @component-background;
   width: calc(100% - @suite-page-tag-operate-width);
-
-  .suite-page-tag-tabs {
-    width: calc(100% - 100px);
-    height: 26px;
-    background-color: red;
-    margin: 2px;
-  }
 
   .suite-page-tag-close {
     margin-left: 5px;
     font-size: 10px;
-    color: #8c8c8c;
   }
 
   /**  覆盖 ant design vue的 tabs 样式，变小一点 **/
@@ -279,7 +268,7 @@ function closeTabItem(e) {
   }
 
   :deep(.ant-tabs-nav::before) {
-    border-bottom: 1px solid #ffffff;
+    border-bottom: 1px solid @component-background;
   }
 
   :deep(.ant-tabs-small > .ant-tabs-nav .ant-tabs-tab) {
@@ -287,7 +276,7 @@ function closeTabItem(e) {
   }
 
   :deep(.ant-tabs-tab-active) {
-    background-color: #e8f4ff;
+    background-color: @primary-1;
 
     .suite-page-tag-close {
       color: @primary-color;
@@ -295,7 +284,7 @@ function closeTabItem(e) {
   }
 
   :deep(.ant-tabs-nav .ant-tabs-tab:hover) {
-    background-color: #e8f4ff;
+    background-color: @primary-2;
 
     .suite-page-tag-close {
       color: @primary-color;
