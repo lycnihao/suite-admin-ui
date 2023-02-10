@@ -146,3 +146,16 @@ function changeFooterFlag(e) {
   });
 }
 </script>
+<style lang="less" scoped>
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid fade(@text-color, 5%);
+  padding: 10px 16px;
+  background: @component-background;
+  text-align: left;
+  z-index: 1;
+}
+</style>
