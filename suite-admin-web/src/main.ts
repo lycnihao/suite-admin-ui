@@ -5,6 +5,7 @@ import App from "./App.vue";
 import "/@/styles/index.less";
 import router, { setupRouter } from "/@/router/index";
 import { setupStore } from "/@/store";
+import { permission } from "/@/utils/permission";
 import "nprogress/nprogress.css";
 
 async function bootstrap() {
@@ -27,6 +28,9 @@ async function bootstrap() {
 
   // 路由准备就绪后挂载APP实例
   await router.isReady();
+
+  // 注册全局自定义指令，如：v-permission权限指令
+  app.directive("permission", permission);
 
   app.mount("#app");
 }
