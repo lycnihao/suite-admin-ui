@@ -1,3 +1,4 @@
+import "/@/styles/tailwind.css";
 import * as antIcons from "@ant-design/icons-vue";
 import Antd from "ant-design-vue";
 import { createApp } from "vue";
