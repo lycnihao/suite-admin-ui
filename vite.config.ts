@@ -1,38 +1,10 @@
 import type { UserConfig, ConfigEnv } from "vite";
 import { loadEnv } from "vite";
-import vue from "@vitejs/plugin-vue";
-import { viteMockServe } from "vite-plugin-mock";
-import { createHtmlPlugin } from "vite-plugin-html";
 import { resolve } from "path";
+import { createVitePlugins } from "./vite/plugins";
 
 const pathResolve = (dir) => {
   return resolve(__dirname, ".", dir);
-};
-
-const configMockPlugin = (isBuild) => {
-  return viteMockServe({
-    ignore: /^\_/,
-    mockPath: "mock",
-    localEnabled: !isBuild,
-    prodEnabled: isBuild,
-    injectCode: `
-       import { setupProdMockServer } from '../mock/_createProductionServer';
-
-       setupProdMockServer();
-       `,
-  });
-};
-
-const configHtmlPlugin = (env, isBuild) => {
-  return createHtmlPlugin({
-    minify: isBuild,
-    inject: {
-      // Inject data into ejs template
-      data: {
-        title: env.VITE_GLOB_APP_TITLE,
-      },
-    },
-  });
 };
 
 // https://vitejs.dev/config/
@@ -78,6 +50,6 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       reportCompressedSize: false,
       chunkSizeWarningLimit: 3000,
     },
-    plugins: [vue(), configMockPlugin(isBuild), configHtmlPlugin(env, isBuild)],
+    plugins: createVitePlugins(env, isBuild),
   };
 };
