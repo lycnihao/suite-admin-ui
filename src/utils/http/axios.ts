@@ -101,6 +101,11 @@ export class VAxios {
    * @description:   请求方法
    */
   request<T = Result>(config: AxiosRequestConfig): Promise<T> {
+    const isUrlStr = isUrl(config.url as string);
+    if (!isUrlStr) {
+      const urlPrefix = import.meta.env.VITE_API_URL_PREFIX;
+      config.url = `${urlPrefix}${config.url}`;
+    }
     return new Promise((resolve, reject) => {
       this.axiosInstance
         .request<any, AxiosResponse<Result>>(config)
@@ -130,4 +135,11 @@ export class VAxios {
         });
     });
   }
+}
+
+/**
+ * 判断是否 url
+ * */
+export function isUrl(url: string) {
+  return /^(http|https):\/\//g.test(url);
 }

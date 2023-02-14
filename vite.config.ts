@@ -14,6 +14,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
   console.log("command:", command);
   console.log("env:", env);
   const VITE_PORT = Number(env.VITE_PORT);
+  const VITE_API_URL = env.VITE_API_URL;
   const isBuild = command === "build";
   return {
     resolve: {
@@ -33,6 +34,13 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     server: {
       host: "0.0.0.0",
       port: VITE_PORT,
+      proxy: {
+        "/api": {
+          target: VITE_API_URL,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ""),
+        },
+      },
     },
     css: {
       preprocessorOptions: {
