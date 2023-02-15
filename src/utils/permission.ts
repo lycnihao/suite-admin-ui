@@ -17,7 +17,7 @@ export function hasPermission(accesses: string[]): boolean {
 function _somePermissions(accesses: string[]) {
   return useUserStore().getPermissions.some((item) => {
     const { value }: any = item;
-    return accesses.includes(value);
+    return Array.of(accesses).filter((t) => t === value).length > 0;
   });
 }
 
