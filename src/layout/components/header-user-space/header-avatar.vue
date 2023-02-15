@@ -1,10 +1,10 @@
 <template>
   <a-dropdown class="header-trigger">
     <div class="wrapper">
-      <a-avatar style="margin: 0 5px" :size="24" id="adminAvatar">
-        Koodar
+      <a-avatar style="margin: 0 5px" :size="24" id="adminAvatar" :src="avatar">
+        {{ nickname }}
       </a-avatar>
-      <span class="name">Koodar</span>
+      <span class="name">{{ nickname }}</span>
     </div>
     <template #overlay>
       <a-menu :class="['avatar-menu']">
@@ -38,6 +38,9 @@ function showUpdatePwdModal() {
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
+
+const nickname = userStore.getNickname;
+const avatar = userStore.getAvatar;
 // 退出登录
 const doLogout = () => {
   Modal.confirm({

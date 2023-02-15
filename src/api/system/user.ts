@@ -29,7 +29,7 @@ export function updatePassword(params: any) {
   return http.request<BasicResponseModel>({
     url: "/user/updatePassword",
     method: "post",
-    data: params,
+    params: params,
   });
 }
 

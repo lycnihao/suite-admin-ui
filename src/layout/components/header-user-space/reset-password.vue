@@ -70,13 +70,14 @@ async function updatePwd() {
   formRef.value.validateFields().then(async () => {
     loading.value = true;
     try {
-      await updatePassword(formRef);
+      const { oldPassword, newPassword } = form;
+      const params = { oldPassword, newPassword };
+      await updatePassword(params);
       message.success("修改成功");
       visible.value = false;
-    } catch (error) {
-      message.error("参数验证错误，请仔细填写表单数据!");
+    } finally {
+      loading.value = false;
     }
-    loading.value = false;
   });
 }
 

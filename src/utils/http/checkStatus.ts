@@ -25,7 +25,7 @@ export function checkStatus(status: number, msg: string): void {
       message.error("网络请求超时");
       break;
     case 500:
-      message.error("服务器错误,请联系管理员!");
+      message.error(msg);
       break;
     case 501:
       message.error("网络未实现");
