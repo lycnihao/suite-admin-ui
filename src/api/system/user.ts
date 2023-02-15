@@ -101,7 +101,7 @@ export function logout() {
  * @description: 获取用户列表
  */
 export function getUserList(params: any) {
-  return http.request<BasicResponseModel>({
+  return http.request<any>({
     url: "/user/list",
     method: "get",
     params,

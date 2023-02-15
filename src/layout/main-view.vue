@@ -23,7 +23,6 @@ export default defineComponent({
     const keepAliveComponents = computed(
       () => asyncRouteStore.keepAliveComponents
     );
-    console.log(keepAliveComponents);
 
     return {
       keepAliveComponents,
