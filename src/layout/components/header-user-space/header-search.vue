@@ -9,7 +9,7 @@
     :footer="null"
     :closable="false"
     @cancel="cancelModal"
-    bodyStyle="max-height: 300px; overflow-y: auto"
+    :bodyStyle="{ 'max-height': 300, 'overflow-y': 'auto' }"
   >
     <div class="search-input">
       <a-input

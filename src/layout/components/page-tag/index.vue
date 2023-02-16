@@ -26,7 +26,7 @@
       <template #overlay>
         <a-menu>
           <a-menu-item @click="reloadPage()">刷新</a-menu-item>
-          <a-menu-item @click="removeTab()">关闭</a-menu-item>
+          <a-menu-item @click="removeTab(undefined)">关闭</a-menu-item>
           <a-menu-item @click="closeOther()">关闭其他</a-menu-item>
           <a-menu-item @click="closeAll()">关闭所有</a-menu-item>
         </a-menu>

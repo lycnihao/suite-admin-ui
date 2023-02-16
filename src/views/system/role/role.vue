@@ -1,133 +1,135 @@
 <template>
-  <div class="page-header">
-    <a-form layout="inline" :label-col="{ span: 8 }">
-      <a-form-item label="角色名">
-        <a-input
-          placeholder="请输入角色名称"
-          :style="{ width: '300px' }"
-          v-model:value="params.name"
-        />
-      </a-form-item>
-      <a-button type="primary" @click="queryData()" class="mr-2">
-        查询
-      </a-button>
-      <a-button type="info"> 重置 </a-button>
-    </a-form>
-  </div>
-  <div class="table-operations">
-    <a-button type="primary" @click="handleAdd">
-      <template #icon>
-        <plus-outlined />
-      </template>
-      添加角色
-    </a-button>
-  </div>
-  <a-table
-    :columns="columns"
-    :data-source="tableData"
-    :loading="loading"
-    :pagination="false"
-    bordered
-  >
-    <template #bodyCell="{ column, record }">
-      <template v-if="column.key === 'action'">
-        <a-button
-          type="link"
-          size="small"
-          v-permission:disabled="'system_role_upd'"
-          @click="handleEdit(record)"
-        >
-          编辑
+  <div>
+    <div class="page-header">
+      <a-form layout="inline" :label-col="{ span: 8 }">
+        <a-form-item label="角色名">
+          <a-input
+            placeholder="请输入角色名称"
+            :style="{ width: '300px' }"
+            v-model:value="params.name"
+          />
+        </a-form-item>
+        <a-button type="primary" @click="queryData()" class="mr-2">
+          查询
         </a-button>
-        <a-popconfirm
-          title="确认删除吗?"
-          ok-text="确认"
-          cancel-text="取消"
-          @confirm="handleDelete(record)"
-        >
+        <a-button type="info"> 重置 </a-button>
+      </a-form>
+    </div>
+    <div class="table-operations">
+      <a-button type="primary" @click="handleAdd">
+        <template #icon>
+          <plus-outlined />
+        </template>
+        添加角色
+      </a-button>
+    </div>
+    <a-table
+      :columns="columns"
+      :data-source="tableData"
+      :loading="loading"
+      :pagination="false"
+      bordered
+    >
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
           <a-button
             type="link"
             size="small"
-            v-permission:disabled="'system_role_del'"
+            v-permission:disabled="'system_role_upd'"
+            @click="handleEdit(record)"
           >
-            删除
+            编辑
           </a-button>
-        </a-popconfirm>
+          <a-popconfirm
+            title="确认删除吗?"
+            ok-text="确认"
+            cancel-text="取消"
+            @confirm="handleDelete(record)"
+          >
+            <a-button
+              type="link"
+              size="small"
+              v-permission:disabled="'system_role_del'"
+            >
+              删除
+            </a-button>
+          </a-popconfirm>
+        </template>
       </template>
-    </template>
-  </a-table>
-  <div class="page-wrapper">
-    <a-pagination
-      class="pagination"
-      v-model:current="params.current"
-      v-model:page-size="params.pageSize"
-      :defaultPageSize="params.pageSize"
-      :page-size-options="['10', '20', '50', '100']"
-      :total="total"
-      showLessItems
-      showSizeChanger
-      @change="queryData"
-      @showSizeChange="queryData"
-    />
-  </div>
-  <a-drawer
-    placement="right"
-    v-model:visible="showModal"
-    :title="addRoleFlag ? '新增角色' : '编辑角色'"
-    :width="502"
-    :body-style="{ paddingBottom: '80px' }"
-    :footer-style="{ textAlign: 'right' }"
-    @close="closeModal"
-  >
-    <template #header> {{ addRoleFlag ? "新增角色" : "编辑角色" }} </template>
-    <template #footer>
-      <a-button type="primary" :loading="formBtnLoading" @click="confirmForm"
-        >提交</a-button
-      >&nbsp;
-      <a-button>重置</a-button>
-    </template>
-    <a-spin :spinning="loadModal">
-      <a-form
-        ref="formRef"
-        label-placement="left"
-        :label-col="{ span: 4 }"
-        :model="form"
-        :rules="rules"
-      >
-        <a-form-item label="角色编码" name="code">
-          <a-input
-            v-model:value="form.code"
-            placeholder="输入角色编码"
-            :disabled="!addRoleFlag"
-          />
-        </a-form-item>
-        <a-form-item label="角色名称" name="name">
-          <a-input v-model:value="form.name" placeholder="输入角色名" />
-        </a-form-item>
-        <a-form-item label="角色权限">
-          <a-card>
-            <a-tree
-              checkable
-              :virtual="true"
-              :checkStrictly="false"
-              :tree-data="treeData"
-              @check="onCheck"
-              v-model:checkedKeys="checkedKeys"
-              v-model:expandedKeys="expandedKeys"
-              style="max-height: 650px; overflow: hidden"
+    </a-table>
+    <div class="page-wrapper">
+      <a-pagination
+        class="pagination"
+        v-model:current="params.current"
+        v-model:page-size="params.pageSize"
+        :defaultPageSize="params.pageSize"
+        :page-size-options="['10', '20', '50', '100']"
+        :total="total"
+        showLessItems
+        showSizeChanger
+        @change="queryData"
+        @showSizeChange="queryData"
+      />
+    </div>
+    <a-drawer
+      placement="right"
+      v-model:visible="showModal"
+      :title="addRoleFlag ? '新增角色' : '编辑角色'"
+      :width="502"
+      :body-style="{ paddingBottom: '80px' }"
+      :footer-style="{ textAlign: 'right' }"
+      @close="closeModal"
+    >
+      <template #header> {{ addRoleFlag ? "新增角色" : "编辑角色" }} </template>
+      <template #footer>
+        <a-button type="primary" :loading="formBtnLoading" @click="confirmForm"
+          >提交</a-button
+        >&nbsp;
+        <a-button>重置</a-button>
+      </template>
+      <a-spin :spinning="loadModal">
+        <a-form
+          ref="formRef"
+          label-placement="left"
+          :label-col="{ span: 4 }"
+          :model="form"
+          :rules="rules"
+        >
+          <a-form-item label="角色编码" name="code">
+            <a-input
+              v-model:value="form.code"
+              placeholder="输入角色编码"
+              :disabled="!addRoleFlag"
             />
-          </a-card>
-        </a-form-item>
-        <a-form-item label="备注">
-          <a-input
-            v-model:value="form.description"
-            type="textarea"
-            placeholder="请输入备注"
-          />
-        </a-form-item>
-      </a-form>
-    </a-spin>
-  </a-drawer>
+          </a-form-item>
+          <a-form-item label="角色名称" name="name">
+            <a-input v-model:value="form.name" placeholder="输入角色名" />
+          </a-form-item>
+          <a-form-item label="角色权限">
+            <a-card>
+              <a-tree
+                checkable
+                :virtual="true"
+                :checkStrictly="false"
+                :tree-data="treeData"
+                @check="onCheck"
+                v-model:checkedKeys="checkedKeys"
+                v-model:expandedKeys="expandedKeys"
+                style="max-height: 650px; overflow: hidden"
+              />
+            </a-card>
+          </a-form-item>
+          <a-form-item label="备注">
+            <a-input
+              v-model:value="form.description"
+              type="textarea"
+              placeholder="请输入备注"
+            />
+          </a-form-item>
+        </a-form>
+      </a-spin>
+    </a-drawer>
+  </div>
 </template>
 <script lang="ts" setup>
 import { unref, reactive, ref, onMounted } from "vue";
