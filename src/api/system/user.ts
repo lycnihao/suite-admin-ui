@@ -107,3 +107,15 @@ export function getUserList(params: any) {
     params,
   });
 }
+
+export default {
+  getUserInfo,
+  updatePassword,
+  getUserInfoById,
+  addUserInfo,
+  updateUserInfo,
+  deleteUserInfo,
+  login,
+  logout,
+  getUserList,
+};
