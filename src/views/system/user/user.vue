@@ -1,4 +1,3 @@
-<!-- eslint-disable no-unused-vars -->
 <template>
   <div class="page-header">
     <a-form layout="inline" :label-col="{ span: 8 }">

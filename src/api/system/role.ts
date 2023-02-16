@@ -73,6 +73,7 @@ export default {
   getRoleList,
   getAllRoles,
   getRoleInfo,
+  addRoleInfo,
   updateRoleInfo,
   deleteRoleInfo,
 };
