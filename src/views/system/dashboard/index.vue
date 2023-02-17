@@ -31,3 +31,6 @@
     </div>
   </a-card>
 </template>
+<script lang="ts">
+export default { name: "dashboard_workplace" };
+</script>

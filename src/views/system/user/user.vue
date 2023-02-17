@@ -156,7 +156,7 @@
     </a-drawer>
   </div>
 </template>
-<script lang="ts" setup>
+<script lang="ts" setup name="system_role">
 import { unref, reactive, ref, onMounted } from "vue";
 import { message } from "ant-design-vue";
 import type { Rule } from "ant-design-vue/es/form";

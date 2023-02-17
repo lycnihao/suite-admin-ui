@@ -131,7 +131,7 @@
     </a-drawer>
   </div>
 </template>
-<script lang="ts" setup>
+<script lang="ts" setup name="system_user">
 import { unref, reactive, ref, onMounted } from "vue";
 import { message } from "ant-design-vue";
 import cloneDeep from "lodash.clonedeep";

@@ -100,7 +100,7 @@
     </a-drawer>
   </div>
 </template>
-<script lang="ts" setup>
+<script lang="ts" setup name="system_menu">
 import { ref, unref, reactive, onMounted } from "vue";
 import permissionApi from "/@/api/system/permission";
 import { getTreeItem } from "/@/utils/tree";

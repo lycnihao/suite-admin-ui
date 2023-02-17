@@ -28,11 +28,9 @@ export class VAxios {
      */
     this.axiosInstance.interceptors.request.use(
       (config: AxiosRequestConfig) => {
-        console.log("添加请求拦截器");
         // 在发送请求之前添加token
         const userStore = useUserStoreWidthOut();
         const token = userStore.getToken;
-        console.log("access token:" + token);
         if (token && config.headers) {
           // jwt token
           config.headers.Authorization = authenticationScheme
@@ -54,7 +52,6 @@ export class VAxios {
       (config: AxiosResponse) => {
         // 2xx 范围内的状态码都会触发该函数。
         // 对响应数据做点什么
-        console.log("添加响应拦截器");
         return config;
       },
       (error) => {
