@@ -8,9 +8,6 @@
     </div>
     <template #overlay>
       <a-menu :class="['avatar-menu']">
-        <a-menu-item>
-          <span>刷新权限</span>
-        </a-menu-item>
         <a-menu-item @click="showUpdatePwdModal">
           <span>修改密码</span>
         </a-menu-item>
