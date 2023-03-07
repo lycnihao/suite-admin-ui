@@ -117,7 +117,10 @@ export default defineComponent({
   },
   setup(props) {
     const { form, addFlag } = toRefs(props);
-    let formParams = reactive(form);
+    console.log(form.value);
+    let formParams = reactive(
+      form.value?.id > 0 ? form : cloneDeep(form.value)
+    );
     const rules = {
       type: {
         required: true,
