@@ -60,7 +60,7 @@
     <div class="page-wrapper">
       <a-pagination
         class="pagination"
-        v-model:current="params.current"
+        v-model:current="params.page"
         v-model:page-size="params.pageSize"
         :defaultPageSize="params.pageSize"
         :page-size-options="['10', '20', '50', '100']"
@@ -162,7 +162,7 @@ const columns = [
 
 const total = ref(0);
 const params = reactive({
-  current: 1,
+  page: 1,
   pageSize: 10,
   name: "",
 });
@@ -176,8 +176,6 @@ const queryData = async () => {
     };
     const { data } = await roleApi.getRoleList(_params);
     tableData.value = data.content;
-    params.pageSize = data.size;
-    params.current = data.number + 1;
     total.value = data.totalElements;
   } finally {
     loading.value = false;
