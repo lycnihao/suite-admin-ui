@@ -133,7 +133,7 @@ const defaultForm = {
   redirect: "",
   component: "",
   sort: 1,
-  keepAlive: "",
+  keepAlive: true,
 };
 const formParams = reactive(cloneDeep(defaultForm));
 
