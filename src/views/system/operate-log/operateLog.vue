@@ -50,7 +50,7 @@
     <OperateLogDetailModal ref="detailModal" />
   </div>
 </template>
-<script lang="ts" setup name="system_user">
+<script lang="ts" setup name="operate_log">
 import { ref, unref, reactive } from "vue";
 import operateLogApi from "/@/api/system/operateLog";
 import OperateLogDetailModal from "./operateLogModal.vue";
