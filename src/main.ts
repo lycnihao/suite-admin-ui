@@ -8,12 +8,15 @@ import router, { setupRouter } from "/@/router/index";
 import { setupStore } from "/@/store";
 import { permission } from "/@/utils/permission";
 import "nprogress/nprogress.css";
+import JsonViewer from "vue3-json-viewer";
+import "vue3-json-viewer/dist/index.css";
 
 async function bootstrap() {
   const app = createApp(App);
 
   app.use(Antd);
   app.use(router);
+  app.use(JsonViewer);
 
   // 注册图标组件
   const icons: any = antIcons;
