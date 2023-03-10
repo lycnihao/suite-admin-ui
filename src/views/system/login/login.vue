@@ -20,6 +20,7 @@
             <a-input
               v-model:value="formInline.username"
               placeholder="请输入用户名"
+              @keyup.enter="handleSubmit"
             >
               <template #prefix>
                 <user-outlined />
@@ -32,6 +33,7 @@
               type="password"
               showPasswordOn="click"
               placeholder="请输入密码"
+              @keyup.enter="handleSubmit"
             >
               <template #prefix>
                 <lock-outlined />
