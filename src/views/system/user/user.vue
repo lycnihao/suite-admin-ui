@@ -160,7 +160,6 @@
 import { unref, reactive, ref, onMounted } from "vue";
 import { message } from "ant-design-vue";
 import type { Rule } from "ant-design-vue/es/form";
-import cloneDeep from "lodash.clonedeep";
 import userApi from "/@/api/system/user";
 import roleApi from "/@/api/system/role";
 
@@ -277,7 +276,7 @@ const closeModal = () => {
 };
 
 const resetForm = () => {
-  form = reactive(cloneDeep(defaultForm));
+  form = reactive(Object.assign({}, defaultForm));
 };
 
 async function handleAdd() {
@@ -304,7 +303,7 @@ async function handleEdit(record: any) {
     (r) => new Object({ label: r.name, value: r.id })
   );
   const { data } = await userApi.getUserInfoById(record.userId);
-  form = reactive(cloneDeep(data));
+  form = reactive(Object.assign({}, data));
   loadModal.value = false;
 }
 

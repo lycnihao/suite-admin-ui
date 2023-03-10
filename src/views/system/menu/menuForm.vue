@@ -95,7 +95,6 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, reactive, toRefs, computed, watch } from "vue";
-import cloneDeep from "lodash.clonedeep";
 import { message, Modal } from "ant-design-vue";
 import permissionApi from "/@/api/system/permission";
 
@@ -118,8 +117,9 @@ export default defineComponent({
   setup(props) {
     const { form, addFlag } = toRefs(props);
     console.log(form.value);
+    console.log();
     let formParams = reactive(
-      form.value?.id > 0 ? form : cloneDeep(form.value)
+      form.value?.id > 0 ? form : Object.assign({}, form.value)
     );
     const rules = {
       type: {
@@ -180,8 +180,7 @@ export default defineComponent({
     watch(
       form,
       (value) => {
-        // Object.assign(formParams, value);
-        formParams = reactive(cloneDeep(value));
+        formParams = reactive(Object.assign(formParams, value));
       },
       { deep: true }
     );

@@ -105,7 +105,6 @@ import { ref, unref, reactive, onMounted } from "vue";
 import permissionApi from "/@/api/system/permission";
 import { getTreeItem } from "/@/utils/tree";
 import MenuForm from "./menuForm.vue";
-import cloneDeep from "lodash.clonedeep";
 
 const menuFormRef = ref();
 
@@ -135,27 +134,20 @@ const defaultForm = {
   sort: 1,
   keepAlive: true,
 };
-const formParams = reactive(cloneDeep(defaultForm));
+let formParams = reactive(Object.assign({}, defaultForm));
 
 function openCreateDrawer() {
   isEditMenu.value = false;
   isDrawer.value = true;
   resetForm();
+  if (treeItemKey.value.length > 0) {
+    console.log("key" + treeItemKey.value[0]);
+    formParams.parentKey = treeItemKey.value[0];
+  }
 }
 
 function resetForm() {
-  formParams.id = undefined;
-  formParams.parentKey = "";
-  formParams.parentId = "";
-  formParams.type = 1;
-  formParams.name = "";
-  formParams.title = "";
-  formParams.icon = "";
-  formParams.path = "";
-  formParams.redirect = "";
-  formParams.component = "";
-  formParams.sort = 1;
-  formParams.keepAlive = "";
+  formParams = reactive(Object.assign({}, defaultForm));
 }
 
 function selectedTree(keys) {

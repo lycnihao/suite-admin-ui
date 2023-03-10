@@ -134,7 +134,6 @@
 <script lang="ts" setup name="system_user">
 import { unref, reactive, ref, onMounted } from "vue";
 import { message } from "ant-design-vue";
-import cloneDeep from "lodash.clonedeep";
 import roleApi from "/@/api/system/role";
 import permissionApi from "/@/api/system/permission";
 
@@ -219,7 +218,7 @@ const closeModal = () => {
 };
 
 const resetForm = () => {
-  form = reactive(cloneDeep(defaultForm));
+  form = reactive(Object.assign(form, defaultForm));
   treeData.value = getTreePermissions(allPermissions.value, []);
 };
 
@@ -237,7 +236,7 @@ async function handleEdit(record: any) {
   loadModal.value = true;
   addRoleFlag.value = false;
   const { data } = await roleApi.getRoleInfo(record.id);
-  form = reactive(cloneDeep(data));
+  form = reactive(Object.assign({}, data));
   treeData.value = getTreePermissions(allPermissions.value, data.permissions);
   loadModal.value = false;
 }
