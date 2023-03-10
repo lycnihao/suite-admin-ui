@@ -2,7 +2,7 @@ import { adminMenus } from "/@/api/system/menu";
 import { RouteRecordRaw } from "vue-router";
 
 const Layout = () => import("/@/layout/suite-layout.vue");
-const Iframe = () => import("/@/views/iframe/index.vue");
+const Iframe = () => import("/@/views/support/iframe/index.vue");
 const LayoutMap = new Map<string, () => Promise<any>>();
 
 LayoutMap.set("LAYOUT", Layout);
