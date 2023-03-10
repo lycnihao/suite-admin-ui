@@ -61,8 +61,8 @@
       <a-pagination
         class="pagination"
         v-model:current="params.page"
-        v-model:page-size="params.pageSize"
-        :defaultPageSize="params.pageSize"
+        v-model:page-size="params.size"
+        :defaultPageSize="params.size"
         :page-size-options="['10', '20', '50', '100']"
         :total="total"
         showLessItems
@@ -162,7 +162,7 @@ const columns = [
 const total = ref(0);
 const params = reactive({
   page: 1,
-  pageSize: 10,
+  size: 10,
   name: "",
 });
 let tableData = ref([]);
