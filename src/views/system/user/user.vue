@@ -276,7 +276,7 @@ const closeModal = () => {
 };
 
 const resetForm = () => {
-  form = reactive(Object.assign({}, defaultForm));
+  Object.assign(form, defaultForm);
 };
 
 async function handleAdd() {
@@ -303,7 +303,7 @@ async function handleEdit(record: any) {
     (r) => new Object({ label: r.name, value: r.id })
   );
   const { data } = await userApi.getUserInfoById(record.userId);
-  form = reactive(Object.assign({}, data));
+  Object.assign(form, data);
   loadModal.value = false;
 }
 

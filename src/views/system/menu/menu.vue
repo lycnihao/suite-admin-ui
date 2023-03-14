@@ -134,7 +134,8 @@ const defaultForm = {
   sort: 1,
   keepAlive: true,
 };
-let formParams = reactive(Object.assign({}, defaultForm));
+let formParams = reactive({});
+Object.assign(formParams, defaultForm);
 
 function openCreateDrawer() {
   isEditMenu.value = false;
@@ -147,7 +148,7 @@ function openCreateDrawer() {
 }
 
 function resetForm() {
-  formParams = reactive(Object.assign({}, defaultForm));
+  Object.assign(formParams, defaultForm);
 }
 
 function selectedTree(keys) {

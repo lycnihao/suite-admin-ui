@@ -117,10 +117,8 @@ export default defineComponent({
   setup(props) {
     const { form, addFlag } = toRefs(props);
     console.log(form.value);
-    console.log();
-    let formParams = reactive(
-      form.value?.id > 0 ? form : Object.assign({}, form.value)
-    );
+    let formParams = reactive({});
+    Object.assign(formParams, form.value);
     const rules = {
       type: {
         required: true,
@@ -176,15 +174,6 @@ export default defineComponent({
         },
       });
     }
-
-    watch(
-      form,
-      (value) => {
-        formParams = reactive(Object.assign(formParams, value));
-      },
-      { deep: true }
-    );
-
     return {
       formParams,
       rules,

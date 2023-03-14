@@ -218,7 +218,7 @@ const closeModal = () => {
 };
 
 const resetForm = () => {
-  form = reactive(Object.assign(form, defaultForm));
+  Object.assign(form, defaultForm);
   treeData.value = getTreePermissions(allPermissions.value, []);
 };
 
@@ -236,7 +236,7 @@ async function handleEdit(record: any) {
   loadModal.value = true;
   addRoleFlag.value = false;
   const { data } = await roleApi.getRoleInfo(record.id);
-  form = reactive(Object.assign({}, data));
+  Object.assign(form, data);
   treeData.value = getTreePermissions(allPermissions.value, data.permissions);
   loadModal.value = false;
 }
